@@ -7,6 +7,7 @@ html {
   font-family: "Poppins", sans-serif;
 }
 
+/* Existing Swiper navigation styles */
 .swiper-button-next, .swiper-button-prev {
   background-color: white;
   color: #218ACE;
@@ -27,8 +28,16 @@ html {
   color: white;
 }
 
+/* Hide Swiper navigation on small screens */
+@media (max-width: 640px) { /* Adjust this value based on your breakpoint */
+  .swiper-button-next, .swiper-button-prev {
+    display: none !important;
+  }
+}
+
+
 .swiper-button-next::after, .swiper-button-prev::after {
-  font-size: 2rem !important;
+  font-size: 1.7rem !important;
   font-weight: bolder;
 }
 
