@@ -7,6 +7,48 @@ html {
   font-family: "Poppins", sans-serif;
 }
 
+.swiper-button-next, .swiper-button-prev {
+  background-color: white;
+  color: #218ACE;
+  border-radius: 50%;
+  width: 50px !important;
+  height: 50px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  top: 50%;
+  transform: translateY(-50%);
+  transition: 0.2s all ease-in-out;
+}
+
+.swiper-button-next:hover, .swiper-button-prev:hover {
+  background-color: #218ACE;
+  color: white;
+}
+
+.swiper-button-next::after, .swiper-button-prev::after {
+  font-size: 2rem !important;
+  font-weight: bolder;
+}
+
+.swiper-pagination-bullet {
+  background-color: rgba(255, 255, 255, 0.6);
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  transition: 0.3s ease-in-out;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #218ACE;
+  transform: scale(1.2);
+}
+
+.swiper-pagination-bullet:hover {
+  background-color: #218ACE;
+}
+
 @layer base {
   .btn-style {
     @apply border-[3px] border-white w-fit px-6 font-semibold text-lg text-white rounded-xl py-2 transition-all hover:bg-white hover:text-primary;

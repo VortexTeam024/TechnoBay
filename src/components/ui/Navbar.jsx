@@ -12,6 +12,7 @@ const Navbar = () => {
             <a href="/" aria-label="Home" className="flex-shrink-0">
               <img src="./assets/Logo.png" alt="TechnoBay Company Logo" />
             </a>
+            
             {/* Search Bar */}
             <div className="relative flex-1 mx-4">
               <input 
@@ -74,10 +75,11 @@ const Navbar = () => {
               {category}
             </a>
           ))}
+          <button onClick={() => setIsOpen(!isOpen)} className="text-primary text-lg font-bold block lg:hidden">All Categories</button>
         </div>
 
         {/* Mobile Dropdown Menu */}
-        <div className={`mobile-nav container mx-auto flex-col flex lg:hidden absolute px-7 py-5 bg-primary top-full left-0 h-fit ${isOpen ? "flex" : "hidden"} gap-4`}>
+        <div className={`mobile-nav container mx-auto flex-col flex lg:hidden absolute px-7 py-5 bg-primary z-50 top-full left-0 h-fit ${isOpen ? "flex" : "hidden"} gap-4`}>
           {["Laptop", "Mobile", "Television", "Smart Watch", "Tablet", "Earphone", "Camera", "Accessory"].map((category, index) => (
             <a 
               key={index} 
@@ -122,3 +124,4 @@ const Navbar = () => {
 }
 
 export default Navbar;
+

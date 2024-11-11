@@ -11,7 +11,11 @@ export default {
       colors: {
         primary: "#218ACE",
         secondary: "#111111",
+        overlay: "rgba(0, 0, 0, 0.6)",
         background: "#F1F1F1"
+      },
+      spacing: {
+        heroSize: "calc(100vh - 120px)"
       }
     },
   },
