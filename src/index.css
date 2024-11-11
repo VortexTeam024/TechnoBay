@@ -6,3 +6,9 @@
 html {
   font-family: "Poppins", sans-serif;
 }
+
+@layer base {
+  .btn-style {
+    @apply border-[3px] border-white w-fit px-6 font-semibold text-lg text-white rounded-xl py-2 transition-all hover:bg-white hover:text-primary;
+  }
+}

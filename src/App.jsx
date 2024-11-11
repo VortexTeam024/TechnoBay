@@ -1,6 +1,10 @@
+import Navbar from "./components/ui/Navbar";
+
 const App = () => {
   return (
-    <div>Get Started</div>
+    <>
+      <Navbar />
+    </>
   );
 };
 
