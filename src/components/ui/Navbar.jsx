@@ -6,11 +6,11 @@ const Navbar = () => {
 		<header className="h-fit lg:h-[120px] w-screen fixed top-0 left-0 z-50">
 			{/* Top Navbar */}
 			<nav className="top-nav h-[70px] bg-primary">
-				<div className="container  ">
-					<div className="top-nav flex items-center justify-between px-4 md:px-8">
+				<div className="container">
+					<div className="top-nav flex items-center justify-between px-0 md:px-8">
 						{/* Logo */}
 						<a href="/" aria-label="Home" className="flex-shrink-0">
-							<img src="./assets/Logo.png" alt="TechnoBay Company Logo" />
+							<img src="./assets/Logo.png" width={"70px"} alt="TechnoBay Company Logo" />
 						</a>
 
 						{/* Search Bar */}
@@ -55,15 +55,6 @@ const Navbar = () => {
 								Login
 							</a>
 						</div>
-
-						{/* Hamburger Icon for Mobile */}
-						<button
-							onClick={() => setIsOpen(!isOpen)}
-							className="text-primary text-lg font-bold block lg:hidden"
-							aria-label="Toggle menu"
-						>
-							☰
-						</button>
 					</div>
 				</div>
 			</nav>
@@ -94,7 +85,7 @@ const Navbar = () => {
 						onClick={() => setIsOpen(!isOpen)}
 						className="text-primary text-lg font-bold block lg:hidden"
 					>
-						All Categories
+						<i className="fa fa-bars fa-xl"></i>
 					</button>
 				</div>
 

@@ -16,7 +16,6 @@ const Home = () => {
 					loop={true}
 					className="h-full w-full"
 				>
-					{/* First Slide */}
 					<SwiperSlide>
 						<div className="relative w-full h-screen lg:h-heroSize">
 							<div className="text absolute flex flex-col items-center justify-center h-full w-full z-50 px-4 lg:px-0">
@@ -37,8 +36,6 @@ const Home = () => {
 							/>
 						</div>
 					</SwiperSlide>
-
-					{/* Second Slide */}
 					<SwiperSlide>
 						<div className="relative w-full h-screen lg:h-heroSize">
 							<div className="text absolute flex flex-col items-center justify-center h-full w-full z-50 px-4 lg:px-0">
@@ -62,7 +59,7 @@ const Home = () => {
 				</Swiper>
 			</section>
 			<section className="sales py-6">
-				<div className="container   flex flex-wrap gap-6 justify-center items-center">
+				<div className="container flex flex-wrap justify-center gap-5 md:justify-between items-center">
 					<div className="card w-[420px] h-[423px] border-[2px] px-5 rounded-xl border-[#aaa]">
 						<h3 className="text-3xl font-bold text-primary py-6">Shop Now</h3>
 						<div className="card-body grid grid-cols-2 gap-[40px]">
@@ -99,7 +96,7 @@ const Home = () => {
 						</div>
 					</div>
 					<img src="./assets/super-sale.png" alt="" />
-					<div className="card w-[400px] h-[423px] border-[2px] px-5 rounded-xl border-[#aaa]">
+					<div className="card w-[420px] h-[423px] border-[2px] px-5 rounded-xl border-[#aaa]">
 						<h3 className="text-3xl font-bold text-primary py-6">Mega Deals</h3>
 						<div className="card-body grid grid-cols-2 gap-[10px]">
 							<div className="bg-[#D1E7FB] w-[175px] rounded-[10px]">
@@ -142,6 +139,56 @@ const Home = () => {
 					</div>
 				</div>
 			</section>
+      <section className="categories container bg-white rounded-[28px] p-5 flex flex-wrap items-center justify-between">
+        <div className="category flex flex-col items-center space-y-2 w-fit">
+          <div className="image w-[110px] h-[110px] shadow-xl bg-white relative rounded-full">
+            <img src="./assets/category1.png" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" alt="" />
+          </div>
+          <h5 className="text-xl font-semibold">Laptops</h5>
+        </div>
+        <div className="category flex flex-col items-center space-y-2 w-fit">
+          <div className="image w-[110px] h-[110px] shadow-xl bg-white relative rounded-full">
+            <img src="./assets/category2.png" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" alt="" />
+          </div>
+          <h5 className="text-xl font-semibold">Mobiles</h5>
+        </div>
+        <div className="category flex flex-col items-center space-y-2 w-fit">
+          <div className="image w-[110px] h-[110px] shadow-xl bg-white relative rounded-full">
+            <img src="./assets/category3.png" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" alt="" />
+          </div>
+          <h5 className="text-xl font-semibold">Televisions</h5>
+        </div>
+        <div className="category flex flex-col items-center space-y-2 w-fit">
+          <div className="image w-[110px] h-[110px] shadow-xl bg-white relative rounded-full">
+            <img src="./assets/category4.png" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" alt="" />
+          </div>
+          <h5 className="text-xl font-semibold">Smart Watch</h5>
+        </div>
+        <div className="category flex flex-col items-center space-y-2 w-fit">
+          <div className="image w-[110px] h-[110px] shadow-xl bg-white relative rounded-full">
+            <img src="./assets/category5.png" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" alt="" />
+          </div>
+          <h5 className="text-xl font-semibold">Tablet</h5>
+        </div>
+        <div className="category flex flex-col items-center space-y-2 w-fit">
+          <div className="image w-[110px] h-[110px] shadow-xl bg-white relative rounded-full">
+            <img src="./assets/category6.png" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" alt="" />
+          </div>
+          <h5 className="text-xl font-semibold">Earphone</h5>
+        </div>
+        <div className="category flex flex-col items-center space-y-2 w-fit">
+          <div className="image w-[110px] h-[110px] shadow-xl bg-white relative rounded-full">
+            <img src="./assets/category7.png" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" alt="" />
+          </div>
+          <h5 className="text-xl font-semibold">Camera</h5>
+        </div>
+        <div className="category flex flex-col items-center space-y-2 w-fit">
+          <div className="image w-[110px] h-[110px] shadow-xl bg-white relative rounded-full">
+            <img src="./assets/category8.png" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" alt="" />
+          </div>
+          <h5 className="text-xl font-semibold">Accessory</h5>
+        </div>
+      </section>
 		</main>
 	);
 };
