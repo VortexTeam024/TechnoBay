@@ -5,7 +5,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { useState } from "react";
 
-const products = [
+const recommend = [
   {
     id: 1,
     name: "ASUS VivoBook Laptop With 15.6-Inch Display, Core i5-133…",
@@ -41,6 +41,84 @@ const products = [
     discount: "52%",
     freeDelivery: true,
     image: "./assets/recommend3.png",
+  },
+];
+
+const laptops = [
+  {
+    id: 1,
+    name: "ASUS VivoBook Laptop With 15.6-Inch Display, Core i5-133…",
+    price: 13450,
+    originalPrice: 18700,
+    discount: "28%",
+    freeDelivery: true,
+    image: "./assets/laptop1.png",
+  },
+  {
+    id: 2,
+    name: "ASUS VivoBook Laptop With 15.6-Inch Display, Core i5-133…",
+    price: 13450,
+    originalPrice: 18700,
+    discount: "28%",
+    freeDelivery: true,
+    image: "./assets/laptop2.png",
+  },
+  {
+    id: 3,
+    name: "ASUS VivoBook Laptop With 15.6-Inch Display, Core i5-133…",
+    price: 13450,
+    originalPrice: 18700,
+    discount: "28%",
+    freeDelivery: true,
+    image: "./assets/laptop3.png",
+  },
+  {
+    id: 3,
+    name: "ASUS VivoBook Laptop With 15.6-Inch Display, Core i5-133…",
+    price: 13450,
+    originalPrice: 18700,
+    discount: "28%",
+    freeDelivery: true,
+    image: "./assets/laptop4.png",
+  },
+];
+
+const mobiles = [
+  {
+    id: 1,
+    name: "IPHONE 16 Pro Max 54 MPX and with Powerfull Processor, Scre..",
+    price: "67,450",
+    originalPrice: "70,700",
+    discount: "28%",
+    freeDelivery: true,
+    image: "./assets/mobile1.png",
+  },
+  {
+    id: 2,
+    name: "IPHONE 16 Pro Max 54 MPX and with Powerfull Processor, Scre..",
+    price: "67,450",
+    originalPrice: "70,700",
+    discount: "28%",
+    freeDelivery: true,
+    image: "./assets/mobile2.png",
+  },
+  {
+    id: 3,
+    name: "IPHONE 16 Pro Max 54 MPX and with Powerfull Processor, Scre..",
+    price: "67,450",
+    originalPrice: "70,700",
+    discount: "28%",
+    freeDelivery: true,
+    image: "./assets/mobile3.png",
+  },
+  {
+    id: 4,
+    name: "IPHONE 16 Pro Max 54 MPX and with Powerfull Processor, Scre..",
+    price: "67,450",
+    originalPrice: "70,700",
+    discount: "28%",
+    freeDelivery: true,
+    image: "./assets/mobile4.png",
   },
 ];
 
@@ -115,7 +193,7 @@ const Home = () => {
 								<img src="./assets/shopcard1.png" alt="" />
 								<div className="text p-1 px-2">
 									<h4 className="font-semibold text-[16px]">
-										Top Rated Products
+										Top Rated recommend
 									</h4>
 									<p className="text-[12px]">Stay in trend</p>
 								</div>
@@ -239,8 +317,8 @@ const Home = () => {
       </section>
 			<section className="recommend container my-6">
         <h1 className="text-4xl font-bold pb-6">Recommended For You</h1>
-        <div className="products grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
-          {products.map((product) => (
+        <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
+          {recommend.map((product) => (
             <article
               key={product.id}
               className="product bg-white p-2 rounded-[20px] shadow-2xl"
@@ -303,6 +381,136 @@ const Home = () => {
 				<img src="./assets/sale1.png" className="cursor-pointer" alt="" />
 				<img src="./assets/sale2.png" className="cursor-pointer" alt="" />
 			</section>
+			<section className="laptops container my-6">
+				<div className="heading pb-6 flex items-center justify-between">
+					<h1 className="text-4xl font-bold">Laptops</h1>
+					<button className="px-7 py-3 border-[3px] text-xl font-semibold border-primary text-primary rounded-[16px] transition-all hover:text-white hover:bg-primary">Show More</button>
+				</div>
+        <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
+          {laptops.map((product) => (
+            <article
+              key={product.id}
+              className="product bg-white p-2 rounded-[20px] shadow-2xl"
+            >
+              <div
+                className="image bg-[#F6F6F6] p-4 w-full h-[254px] justify-center flex rounded-[20px] relative"
+                aria-label={`${product.name} Image`}
+              >
+                <img src={product.image} alt={product.name} />
+                <div className="tools absolute flex flex-col justify-between top-5 right-2 h-[90%]">
+                  <button
+                    onClick={() => toggleFavorite(product.id)}
+                    aria-label={`${
+                      favorites.includes(product.id) ? "Unfavorite" : "Favorite"
+                    } ${product.name}`}
+                  >
+                    <i
+                      className={`fa-solid fa-heart fa-xl hover:text-[#ff0000] transition-all ${
+                        favorites.includes(product.id)
+                          ? "text-[#ff0000]"
+                          : "text-[#ccc]"
+                      }`}
+                    ></i>
+                  </button>
+                  <button aria-label={`Add ${product.name} to Cart`}>
+                    <i className="fa-solid fa-cart-plus fa-xl text-black hover:text-primary transition-all"></i>
+                  </button>
+                </div>
+              </div>
+              <div className="details p-2">
+                <h2 className="text-lg font-bold" aria-label={product.name}>
+                  {product.name}
+                </h2>
+                <div className="price py-1 pr-3 flex items-center justify-between">
+                  <p className="text-black font-light text-[16px] flex items-center gap-2 leading-none">
+                    EGP{" "}
+                    <span className="font-bold text-[20px]">
+                      {product.price}
+                    </span>
+                    <del>{product.originalPrice}</del>
+                  </p>
+                  <p
+                    className="percent text-[#1BB910] text-[16px] font-bold"
+                    aria-label={`Discount: ${product.discount}`}
+                  >
+                    {product.discount} OFF
+                  </p>
+                </div>
+                {product.freeDelivery && (
+                  <p className="free-delivery" aria-label="Free Delivery">
+                    <i className="fa-solid fa-truck fa-md mr-2"></i> Free Delivery
+                  </p>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+			<section className="mobiles container my-6">
+				<div className="heading pb-6 flex items-center justify-between">
+					<h1 className="text-4xl font-bold">Mobiles</h1>
+					<button className="px-7 py-3 border-[3px] text-xl font-semibold border-primary text-primary rounded-[16px] transition-all hover:text-white hover:bg-primary">Show More</button>
+				</div>
+        <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
+          {mobiles.map((product) => (
+            <article
+              key={product.id}
+              className="product bg-white p-2 rounded-[20px] shadow-2xl"
+            >
+              <div
+                className="image bg-[#F6F6F6] p-4 w-full h-[254px] justify-center flex rounded-[20px] relative"
+                aria-label={`${product.name} Image`}
+              >
+                <img src={product.image} alt={product.name} />
+                <div className="tools absolute flex flex-col justify-between top-5 right-2 h-[90%]">
+                  <button
+                    onClick={() => toggleFavorite(product.id)}
+                    aria-label={`${
+                      favorites.includes(product.id) ? "Unfavorite" : "Favorite"
+                    } ${product.name}`}
+                  >
+                    <i
+                      className={`fa-solid fa-heart fa-xl hover:text-[#ff0000] transition-all ${
+                        favorites.includes(product.id)
+                          ? "text-[#ff0000]"
+                          : "text-[#ccc]"
+                      }`}
+                    ></i>
+                  </button>
+                  <button aria-label={`Add ${product.name} to Cart`}>
+                    <i className="fa-solid fa-cart-plus fa-xl text-black hover:text-primary transition-all"></i>
+                  </button>
+                </div>
+              </div>
+              <div className="details p-2">
+                <h2 className="text-lg font-bold" aria-label={product.name}>
+                  {product.name}
+                </h2>
+                <div className="price py-1 pr-3 flex items-center justify-between">
+                  <p className="text-black font-light text-[16px] flex items-center gap-2 leading-none">
+                    EGP{" "}
+                    <span className="font-bold text-[20px]">
+                      {product.price}
+                    </span>
+                    <del>{product.originalPrice}</del>
+                  </p>
+                  <p
+                    className="percent text-[#1BB910] text-[16px] font-bold"
+                    aria-label={`Discount: ${product.discount}`}
+                  >
+                    {product.discount} OFF
+                  </p>
+                </div>
+                {product.freeDelivery && (
+                  <p className="free-delivery" aria-label="Free Delivery">
+                    <i className="fa-solid fa-truck fa-md mr-2"></i> Free Delivery
+                  </p>
+                )}
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
 		</main>
 	);
 };
