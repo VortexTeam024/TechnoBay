@@ -299,6 +299,10 @@ const Home = () => {
           ))}
         </div>
       </section>
+			<section className="news py-6 container grid grid-cols-1 md:grid-cols-2 gap-12">
+				<img src="./assets/sale1.png" className="cursor-pointer" alt="" />
+				<img src="./assets/sale2.png" className="cursor-pointer" alt="" />
+			</section>
 		</main>
 	);
 };
