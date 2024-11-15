@@ -122,6 +122,19 @@ const mobiles = [
   },
 ];
 
+const brands = [
+	"./assets/brand1.png",
+	"./assets/brand2.png",
+	"./assets/brand3.png",
+	"./assets/brand4.png",
+	"./assets/brand5.png",
+	"./assets/brand6.png",
+	"./assets/brand7.png",
+	"./assets/brand8.png",
+	"./assets/brand9.png",
+	"./assets/brand10.png",
+]
+
 const Home = () => {
 	const [favorites, setFavorites] = useState([]);
   const toggleFavorite = (productId) => {
@@ -511,6 +524,18 @@ const Home = () => {
           ))}
         </div>
       </section>
+			<section className="brands p-6 bg-white">
+				<h1 className="lg:text-6xl md:text-4xl text-3xl text-center font-bold py-8">Your Favorite Brands</h1>
+				<div className="container grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 items-center place-items-center">
+					{
+						brands.map((brand, index) => (
+							<div key={index}>
+								<img src={brand} />
+							</div>
+						))
+					}
+				</div>
+			</section>
 		</main>
 	);
 };
