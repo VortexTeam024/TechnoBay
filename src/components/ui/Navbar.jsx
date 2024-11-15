@@ -31,7 +31,7 @@ const Navbar = () => {
 								aria-label="View Wishlist"
 							>
 								Wishlist
-								<img src="./assets/Wishlist.svg" alt="Wishlist Icon" />
+								<i className="fa-solid fa-heart fa-lg"></i>
 							</a>
 							<a
 								href="/cart"
@@ -39,10 +39,12 @@ const Navbar = () => {
 								aria-label="View Cart"
 							>
 								Cart
-								<img src="./assets/Cart.svg" alt="Cart Icon" />
-								<span className="absolute right-[3.26px] top-[-6.25px] text-[10px] text-primary">
-									0
-								</span>
+								<div className="cart relative">
+									<i className="fa-solid fa-cart-shopping fa-lg"></i>
+									<span className="absolute -right-1 top-[-6.25px] text-[10px] text-primary bg-white leading-[7px] p-1 rounded-full">
+										0
+									</span>
+								</div>
 							</a>
 						</div>
 
@@ -123,7 +125,7 @@ const Navbar = () => {
 							aria-label="View Wishlist"
 						>
 							Wishlist
-							<img src="./assets/Wishlist.svg" alt="Wishlist Icon" />
+							<i className="fa-solid fa-heart fa-lg"></i>
 						</a>
 						<a
 							href="/cart"
@@ -131,10 +133,12 @@ const Navbar = () => {
 							aria-label="View Cart"
 						>
 							Cart
-							<img src="./assets/Cart.svg" alt="Cart Icon" />
-							<span className="absolute right-[3.26px] top-[-6.25px] text-[10px] text-primary">
-								0
-							</span>
+							<div className="cart relative">
+									<i className="fa-solid fa-cart-shopping fa-lg"></i>
+									<span className="absolute -right-1 top-[-6.25px] text-[10px] text-primary bg-white leading-[7px] p-1 rounded-full">
+										0
+									</span>
+							</div>
 						</a>
 					</div>
 
