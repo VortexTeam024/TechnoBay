@@ -73,7 +73,7 @@ const laptops = [
     image: "./assets/laptop3.png",
   },
   {
-    id: 3,
+    id: 4,
     name: "ASUS VivoBook Laptop With 15.6-Inch Display, Core i5-133…",
     price: 13450,
     originalPrice: 18700,
@@ -525,7 +525,7 @@ const Home = () => {
         </div>
       </section>
 			<section className="brands p-6 bg-white">
-				<h1 className="lg:text-6xl md:text-4xl text-3xl text-center font-bold py-8">Your Favorite Brands</h1>
+				<h1 className="lg:text-6xl md:text-4xl text-3xl text-center font-bold pt-8 pb-12">Your Favorite Brands</h1>
 				<div className="container grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 items-center place-items-center">
 					{
 						brands.map((brand, index) => (
@@ -535,6 +535,59 @@ const Home = () => {
 						))
 					}
 				</div>
+			</section>
+			<section className="feedbacks my-6 container flex items-center flex-wrap gap-6">
+				<div className="p-2 md:w-[49%] w-full">
+					<div className="heading">
+						<h1 className="text-5xl font-bold">Feedback</h1>
+						<p className="text-[#A5A5A5] text-[16px] pt-2">Customer feedback section provides user reviews, ratings, and comments on products and shopping experiences.</p>
+					</div>
+					<div className="content grid sm:grid-cols-2 grid-cols-1 gap-6 my-2">
+						<div className="card p-4 bg-primary rounded-[28px]">
+              <div className="card-head">
+                <div className="profile flex items-center gap-2">
+                  <img src="./assets/feedback1.png" width={"30px"} height={"30px"} className="rounded-full object-contain" alt="profile" />
+                  <h6 className="font-semibold text-white text-[10px]">Yousief Sameh</h6>
+                </div>
+                <p className="font-semibold text-[14px] italic pt-2 text-white">&quot;Great product quality, fast delivery, and helpful customer service. Highly recommend for future purchases!&quot;</p>
+              </div>
+            </div>
+						<div className="card p-4 bg-primary rounded-[28px]">
+              <div className="card-head">
+                <div className="profile flex items-center gap-2">
+                  <img src="./assets/feedback2.png" width={"30px"} height={"30px"} className="rounded-full object-contain" alt="profile" />
+                  <h6 className="font-semibold text-white text-[10px]">Yousief Sameh</h6>
+                </div>
+                <p className="font-semibold text-[14px] italic pt-2 text-white">&quot;Great product quality, fast delivery, and helpful customer service. Highly recommend for future purchases!&quot;</p>
+              </div>
+            </div>
+						<div className="card p-4 bg-primary rounded-[28px]">
+              <div className="card-head">
+                <div className="profile flex items-center gap-2">
+                  <img src="./assets/feedback3.png" width={"30px"} height={"30px"} className="rounded-full object-contain" alt="profile" />
+                  <h6 className="font-semibold text-white text-[10px]">Yousief Sameh</h6>
+                </div>
+                <p className="font-semibold text-[14px] italic pt-2 text-white">&quot;Great product quality, fast delivery, and helpful customer service. Highly recommend for future purchases!&quot;</p>
+              </div>
+            </div>
+						<div className="card p-4 bg-primary rounded-[28px]">
+              <div className="card-head">
+                <div className="profile flex items-center gap-2">
+                  <img src="./assets/feedback4.png" width={"30px"} height={"30px"} className="rounded-full object-contain" alt="profile" />
+                  <h6 className="font-semibold text-white text-[10px]">Yousief Sameh</h6>
+                </div>
+                <p className="font-semibold text-[14px] italic pt-2 text-white">&quot;Great product quality, fast delivery, and helpful customer service. Highly recommend for future purchases!&quot;</p>
+              </div>
+            </div>
+					</div>
+				</div>
+        <form className="md:w-[49%] w-full flex flex-col items-center gap-3">
+          <h1 className="text-[40px] font-bold">Write Feedback</h1>
+          <input type="text" placeholder="Your Full Name ..." className="px-5 py-3 rounded-[16px] bg-[#ddd] placeholder:text-black font-semibold w-[80%]" />
+          <input type="email" placeholder="Your Mail ..." className="px-5 py-3 rounded-[16px] bg-[#ddd] placeholder:text-black font-semibold w-[80%]" />
+          <textarea placeholder="Your Feedback ..." className="px-5 py-3 rounded-[16px] bg-[#ddd] placeholder:text-black font-semibold w-[80%] h-[140px]" />
+          <button className="px-5 py-3 rounded-[16px] bg-primary text-white text-xl transition-all hover:text-primary hover:bg-white font-semibold w-[80%]">Submit</button>
+        </form>
 			</section>
 		</main>
 	);
