@@ -5,6 +5,7 @@ export default {
     "./src/*.{js,jsx,ts,tsx}",
     "./src/components/pages/*.{js,jsx,ts,tsx}",
     "./src/components/ui/*.{js,jsx,ts,tsx}",
+    "./src/components/pages/categories/*.{js,jsx,ts,tsx}",
   ],
   theme: {
     extend: {

@@ -1,19 +1,16 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	return (
 		<header className="h-fit lg:h-[120px] w-screen fixed top-0 left-0 z-50">
-			{/* Top Navbar */}
 			<nav className="top-nav h-[70px] bg-primary">
 				<div className="container">
 					<div className="top-nav flex items-center justify-between px-0 md:px-8">
-						{/* Logo */}
-						<a href="/" aria-label="Home" className="flex-shrink-0">
+						<Link to="/" aria-label="Home" className="flex-shrink-0">
 							<img src="./assets/Logo.png" width={"70px"} alt="TechnoBay Company Logo" />
-						</a>
-
-						{/* Search Bar */}
+						</Link>
 						<div className="relative flex-1 mx-4">
 							<input
 								type="text"
@@ -22,19 +19,17 @@ const Navbar = () => {
 								aria-label="Search products"
 							/>
 						</div>
-
-						{/* Navigation Links */}
 						<div className="links hidden lg:flex items-center gap-4 mr-4">
-							<a
-								href="/wishlist"
+							<Link
+								to="/wishlist"
 								className="flex items-center gap-2 text-white font-semibold text-lg"
 								aria-label="View Wishlist"
 							>
 								Wishlist
 								<i className="fa-solid fa-heart fa-lg"></i>
-							</a>
-							<a
-								href="/cart"
+							</Link>
+							<Link
+								to="/cart"
 								className="flex items-center gap-2 text-white font-semibold text-lg relative"
 								aria-label="View Cart"
 							>
@@ -45,17 +40,15 @@ const Navbar = () => {
 										0
 									</span>
 								</div>
-							</a>
+							</Link>
 						</div>
-
-						{/* Action Buttons */}
 						<div className="btns hidden lg:flex items-center gap-4">
-							<a href="/register" className="btn-style" aria-label="Register">
+							<Link to="/register" className="btn-style" aria-label="Register">
 								Register
-							</a>
-							<a href="/login" className="btn-style" aria-label="Login">
+							</Link>
+							<Link to="/login" className="btn-style" aria-label="Login">
 								Login
-							</a>
+							</Link>
 						</div>
 					</div>
 				</div>
@@ -74,14 +67,14 @@ const Navbar = () => {
 						"Camera",
 						"Accessory",
 					].map((category, index) => (
-						<a
+						<Link
 							key={index}
-							href={`/${category.toLowerCase().replace(" ", "-")}`}
+							to={`/${category.toLowerCase().replace(" ", "-")}`}
 							className="text-black hover:text-primary font-semibold text-lg hidden lg:flex"
 							aria-label={`View ${category}`}
 						>
 							{category}
-						</a>
+						</Link>
 					))}
 					<button
 						onClick={() => setIsOpen(!isOpen)}
@@ -107,28 +100,28 @@ const Navbar = () => {
 						"Camera",
 						"Accessory",
 					].map((category, index) => (
-						<a
+						<Link
 							key={index}
-							href={`/${category.toLowerCase().replace(" ", "-")}`}
+							to={`/${category.toLowerCase().replace(" ", "-")}`}
 							className="text-white font-semibold text-lg"
 							aria-label={`View ${category}`}
 						>
 							{category}
-						</a>
+						</Link>
 					))}
 
 					{/* Mobile Wishlist and Cart Links */}
 					<div className="links flex flex-col gap-4 mt-4">
-						<a
-							href="/wishlist"
+						<Link
+							to="/wishlist"
 							className="flex items-center gap-2 text-white font-semibold text-lg"
 							aria-label="View Wishlist"
 						>
 							Wishlist
 							<i className="fa-solid fa-heart fa-lg"></i>
-						</a>
-						<a
-							href="/cart"
+						</Link>
+						<Link
+							to="/cart"
 							className="flex items-center gap-2 text-white font-semibold text-lg relative"
 							aria-label="View Cart"
 						>
@@ -139,17 +132,17 @@ const Navbar = () => {
 										0
 									</span>
 							</div>
-						</a>
+						</Link>
 					</div>
 
 					{/* Mobile Register and Login Buttons */}
 					<div className="btns flex flex-col gap-4">
-						<a href="/register" className="btn-style" aria-label="Register">
+						<Link to="/register" className="btn-style" aria-label="Register">
 							Register
-						</a>
-						<a href="/login" className="btn-style" aria-label="Login">
+						</Link>
+						<Link to="/login" className="btn-style" aria-label="Login">
 							Login
-						</a>
+						</Link>
 					</div>
 				</div>
 			</nav>
