@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const Login = () => {
+const ForgetPassword = () => {
 	const [formData, setFormData] = useState({
-		username: "",
-		password: "",
+		email: "",
 	});
 
 	const [errors, setErrors] = useState({});
@@ -22,12 +21,8 @@ const Login = () => {
 
 	const validateForm = (data) => {
 		let errors = {};
-
-		if (!data.username) {
-			errors.username = "Username is required";
-		}
-		if (!data.password) {
-			errors.password = "Password is required";
+		if (!data.email) {
+			errors.email = "Email is required";
 		}
 		return errors;
 	};
@@ -56,8 +51,8 @@ const Login = () => {
 				{/* Header */}
 				<div className="text-center mb-[20px] sm:mb-[40px]">
 					<h1 className="text-[36px] sm:text-[50px] font-bold">
-						<span className="text-primary">W</span>elcome
-						<span className="text-primary"> B</span>ack
+						<span className="text-primary">F</span>orget
+						<span className="text-primary"> P</span>assword
 					</h1>
 				</div>
 
@@ -67,45 +62,27 @@ const Login = () => {
 					<div className="w-full mb-[20px] sm:mb-[30px]">
 						<input
 							className="w-full px-[16px] sm:px-[36px] py-[12px] sm:py-[16px] text-[18px] sm:text-[22px] placeholder:text-black bg-[#f2f2f2] border rounded-[8px] sm:rounded-[12px] focus:outline-none"
-							type="text"
-							name="username"
-							placeholder="Username"
+							type="email"
+							name="email"
+							placeholder="Email"
 							onChange={handleChange}
-							value={formData.username}
+							value={formData.email}
 						/>
-						{errors.username && (
-							<span className="text-red-500 text-sm">{errors.username}</span>
-						)}
-					</div>
-
-					{/* Password Input */}
-					<div className="w-full mb-[20px] sm:mb-[30px]">
-						<input
-							className="w-full px-[16px] sm:px-[36px] py-[12px] sm:py-[16px] text-[18px] sm:text-[22px] placeholder:text-black bg-[#f2f2f2] border rounded-[8px] sm:rounded-[12px] focus:outline-none"
-							type="password"
-							name="password"
-							placeholder="Password"
-							onChange={handleChange}
-							value={formData.password}
-						/>
-						{errors.password && (
-							<span className="text-red-500 text-sm">{errors.password}</span>
+						{errors.email && (
+							<span className="text-red-500 text-sm">{errors.email}</span>
 						)}
 					</div>
 
 					{/* Login Button */}
 					<div className="w-full mb-[20px] sm:mb-[30px]">
 						<button type="submit" className="btn-primary w-full text-[24px]">
-							Login
+							Send
 						</button>
 					</div>
 				</form>
 
 				{/* Footer */}
-				<div className="text-center mt-[10px]">
-					<Link to={"/forget-password"} className="text-[16px] sm:text-[20px] text-gray-400 mb-[10px] block sm:mb-[20px]">
-						Forgotten password?
-					</Link>
+				<div className="text-center mt-[20px] sm:mt-[30px]">
 					<div className="flex justify-center items-center text-[18px] sm:text-[22px]">
 						<span className="text-black mr-[10px]">Don’t have an account?</span>
 						<Link
@@ -128,4 +105,4 @@ const Login = () => {
 	);
 };
 
-export default Login;
+export default ForgetPassword;

@@ -11,6 +11,7 @@ import Accessory from "./components/pages/categories/Accessory";
 import ProductDetails from "./components/pages/ProductDetails";
 import Login from "./components/pages/Login";
 import Register from "./components/pages/Register";
+import ForgetPassword from "./components/pages/ForgetPassword";
 
 const App = () => {
   return (
@@ -28,6 +29,7 @@ const App = () => {
         <Route path="/1234dsa/details" element={<ProductDetails />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/forget-password" element={<ForgetPassword />} />
       </Routes>
     </Router>
   );

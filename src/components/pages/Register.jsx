@@ -28,13 +28,13 @@ const Register = () => {
 			errors.username = "Username is required";
 		}
 		if (!data.email) {
-			errors.username = "Username is required";
+			errors.username = "Email is required";
 		}
 		if (!data.password) {
 			errors.password = "Password is required";
 		}
 		if (!data.confirmPassword || data.password === data.confirmPassword) {
-			errors.password = "Password is required";
+			errors.password = "Confirm Password is required";
 		}
 		return errors;
 	};
