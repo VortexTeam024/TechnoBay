@@ -14,6 +14,7 @@ import Register from "./components/pages/Register";
 import ForgetPassword from "./components/pages/ForgetPassword";
 import VerifyCode from "./components/pages/VerifyCode";
 import NewPassword from "./components/pages/NewPassword";
+import Wishlist from "./components/pages/Wishlist";
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const App = () => {
         <Route path="/camera" element={<Camera />} />
         <Route path="/accessory" element={<Accessory />} />
         <Route path="/1234dsa/details" element={<ProductDetails />} />
+        <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
