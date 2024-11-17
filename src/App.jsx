@@ -12,6 +12,8 @@ import ProductDetails from "./components/pages/ProductDetails";
 import Login from "./components/pages/Login";
 import Register from "./components/pages/Register";
 import ForgetPassword from "./components/pages/ForgetPassword";
+import VerifyCode from "./components/pages/VerifyCode";
+import NewPassword from "./components/pages/NewPassword";
 
 const App = () => {
   return (
@@ -30,6 +32,8 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/forget-password" element={<ForgetPassword />} />
+        <Route path="/verify-code" element={<VerifyCode />} />
+        <Route path="/new-password" element={<NewPassword />} />
       </Routes>
     </Router>
   );

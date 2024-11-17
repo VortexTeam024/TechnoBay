@@ -3,6 +3,18 @@
 @tailwind components;
 @tailwind utilities;
 
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+::-webkit-scrollbar-track {
+  background: #fff;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #218ACE;
+}
+
 html {
   font-family: "Poppins", sans-serif;
   background-color: #f1f1f1;
