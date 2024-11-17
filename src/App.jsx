@@ -9,9 +9,11 @@ import Earphone from "./components/pages/categories/Earphone";
 import Camera from "./components/pages/categories/Camera";
 import Accessory from "./components/pages/categories/Accessory";
 import ProductDetails from "./components/pages/ProductDetails";
-
+import Login from "./Login";
+import './Login.css';
 const App = () => {
-  return (
+  return (<>
+  <Login/>
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -26,6 +28,7 @@ const App = () => {
         <Route path="/1234dsa/details" element={<ProductDetails />} />
       </Routes>
     </Router>
+    </>
   );
 };
 
