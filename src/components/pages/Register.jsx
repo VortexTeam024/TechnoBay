@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
-const Login = () => {
+const Register = () => {
 	const [formData, setFormData] = useState({
 		username: "",
+		email: "",
 		password: "",
+		confirmPassword: "",
 	});
 
 	const [errors, setErrors] = useState({});
@@ -22,11 +24,16 @@ const Login = () => {
 
 	const validateForm = (data) => {
 		let errors = {};
-
 		if (!data.username) {
 			errors.username = "Username is required";
 		}
+		if (!data.email) {
+			errors.username = "Username is required";
+		}
 		if (!data.password) {
+			errors.password = "Password is required";
+		}
+		if (!data.confirmPassword || data.password === data.confirmPassword) {
 			errors.password = "Password is required";
 		}
 		return errors;
@@ -56,15 +63,15 @@ const Login = () => {
 				{/* Header */}
 				<div className="text-center mb-[20px] sm:mb-[40px]">
 					<h1 className="text-[36px] sm:text-[50px] font-bold">
-						<span className="text-primary">W</span>elcome
-						<span className="text-primary"> B</span>ack
+						<span className="text-primary">C</span>reate
+						<span className="text-primary"> A</span>ccount
 					</h1>
 				</div>
 
 				{/* Form */}
 				<form className="w-full" onSubmit={handleSubmit}>
 					{/* Username Input */}
-					<div className="w-full mb-[20px] sm:mb-[30px]">
+					<div className="w-full mb-[10px] sm:mb-[15px]">
 						<input
 							className="w-full px-[16px] sm:px-[36px] py-[12px] sm:py-[16px] text-[18px] sm:text-[22px] placeholder:text-black bg-[#f2f2f2] border rounded-[8px] sm:rounded-[12px] focus:outline-none"
 							type="text"
@@ -78,8 +85,23 @@ const Login = () => {
 						)}
 					</div>
 
+					{/* Email Input */}
+					<div className="w-full mb-[10px] sm:mb-[15px]">
+						<input
+							className="w-full px-[16px] sm:px-[36px] py-[12px] sm:py-[16px] text-[18px] sm:text-[22px] placeholder:text-black bg-[#f2f2f2] border rounded-[8px] sm:rounded-[12px] focus:outline-none"
+							type="email"
+							name="email"
+							placeholder="Email"
+							onChange={handleChange}
+							value={formData.email}
+						/>
+						{errors.email && (
+							<span className="text-red-500 text-sm">{errors.email}</span>
+						)}
+					</div>
+
 					{/* Password Input */}
-					<div className="w-full mb-[20px] sm:mb-[30px]">
+					<div className="w-full mb-[10px] sm:mb-[15px]">
 						<input
 							className="w-full px-[16px] sm:px-[36px] py-[12px] sm:py-[16px] text-[18px] sm:text-[22px] placeholder:text-black bg-[#f2f2f2] border rounded-[8px] sm:rounded-[12px] focus:outline-none"
 							type="password"
@@ -93,26 +115,42 @@ const Login = () => {
 						)}
 					</div>
 
+					{/* Confirm Password Input */}
+					<div className="w-full mb-[10px] sm:mb-[15px]">
+						<input
+							className="w-full px-[16px] sm:px-[36px] py-[12px] sm:py-[16px] text-[18px] sm:text-[22px] placeholder:text-black bg-[#f2f2f2] border rounded-[8px] sm:rounded-[12px] focus:outline-none"
+							type="password"
+							name="confirmPassword"
+							placeholder="Confrim Password"
+							onChange={handleChange}
+							value={formData.confirmPassword}
+						/>
+						{errors.confirmPassword && (
+							<span className="text-red-500 text-sm">
+								{errors.confirmPassword}
+							</span>
+						)}
+					</div>
+
 					{/* Login Button */}
-					<div className="w-full mb-[20px] sm:mb-[30px]">
+					<div className="w-full mb-[10px] sm:mb-[15px]">
 						<button type="submit" className="btn-primary w-full text-[24px]">
-							Login
+							Sign Up
 						</button>
 					</div>
 				</form>
 
 				{/* Footer */}
 				<div className="text-center mt-[20px] sm:mt-[30px]">
-					<p className="text-[16px] sm:text-[20px] text-gray-400 mb-[10px] sm:mb-[20px]">
-						Forgotten password?
-					</p>
 					<div className="flex justify-center items-center text-[18px] sm:text-[22px]">
-						<span className="text-black mr-[10px]">Don’t have an account?</span>
+						<span className="text-black mr-[10px]">
+							Do you have an account?
+						</span>
 						<Link
-							to="/register"
+							to="/login"
 							className="text-primary font-bold hover:underline focus:outline-none"
 						>
-							Sign Up
+							Login
 						</Link>
 					</div>
 				</div>
@@ -128,4 +166,4 @@ const Login = () => {
 	);
 };
 
-export default Login;
+export default Register;
