@@ -63,7 +63,7 @@ const Login = () => {
           {/* Username Input */}
           <div className="w-full mb-[20px] sm:mb-[30px]">
             <input
-              className="w-full px-[16px] sm:px-[20px] py-[16px] sm:py-[20px] text-[18px] sm:text-[24px] bg-[#f2f2f2] border border-gray-300 rounded-[8px] sm:rounded-[12px] focus:outline-none focus:border-[#218ace]"
+              className="w-full px-[16px] sm:px-[20px] py-[12px] sm:py-[10px] text-[14px] sm:text-[18px] bg-[#f2f2f2] border border-gray-300 rounded-[8px] sm:rounded-[12px] focus:outline-none focus:border-[#218ace]"
               type="text"
               name="username"
               placeholder="Username"
@@ -78,7 +78,7 @@ const Login = () => {
           {/* Password Input */}
           <div className="w-full mb-[20px] sm:mb-[30px]">
             <input
-              className="w-full px-[16px] sm:px-[20px] py-[16px] sm:py-[20px] text-[18px] sm:text-[24px] bg-[#f2f2f2] border border-gray-300 rounded-[8px] sm:rounded-[12px] focus:outline-none focus:border-[#218ace]"
+              className="w-full px-[16px] sm:px-[20px] py-[12px] sm:py-[10px] text-[14px] sm:text-[18px] bg-[#f2f2f2] border border-gray-300 rounded-[8px] sm:rounded-[12px] focus:outline-none focus:border-[#218ace]"
               type="password"
               name="password"
               placeholder="Password"
@@ -94,7 +94,7 @@ const Login = () => {
           <div className="w-full mb-[20px] sm:mb-[30px]">
             <button
               type="submit"
-              className="w-full px-[16px] sm:px-[20px] py-[16px] sm:py-[20px] text-[24px] sm:text-[32px] font-bold text-white bg-[#34afff] rounded-[8px] sm:rounded-[12px] transition-colors duration-300 ease-in-out hover:bg-[#218ace]"
+              className="btn-primary w-full text-[24px]"
             >
               Login
             </button>
