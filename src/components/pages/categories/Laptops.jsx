@@ -136,9 +136,7 @@ const Laptops = () => {
 								placeholder="Enter Your brand"
 								className="px-6 py-2 bg-[#F4F4F4] rounded shadow-md placeholder:text-[#8A8A8A] flex-1"
 							/>
-							<button className="px-5 py-3 rounded-[16px] bg-primary text-white text-xl transition-all hover:text-primary hover:bg-white font-semibold w-fit">
-								Go
-							</button>
+							<button className="btn-primary w-fit">Go</button>
 						</div>
 					</form>
 				</div>

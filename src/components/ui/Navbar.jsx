@@ -9,7 +9,11 @@ const Navbar = () => {
 				<div className="container">
 					<div className="top-nav flex items-center justify-between px-0 md:px-8">
 						<Link to="/" aria-label="Home" className="flex-shrink-0">
-							<img src="./assets/Logo.png" width={"70px"} alt="TechnoBay Company Logo" />
+							<img
+								src="/assets/Logo.png"
+								width={"70px"}
+								alt="TechnoBay Company Logo"
+							/>
 						</Link>
 						<div className="relative flex-1 mx-4">
 							<input
@@ -43,10 +47,14 @@ const Navbar = () => {
 							</Link>
 						</div>
 						<div className="btns hidden lg:flex items-center gap-4">
-							<Link to="/register" className="btn-style" aria-label="Register">
+							<Link
+								to="/register"
+								className="btn-secondary"
+								aria-label="Register"
+							>
 								Register
 							</Link>
-							<Link to="/login" className="btn-style" aria-label="Login">
+							<Link to="/login" className="btn-secondary" aria-label="Login">
 								Login
 							</Link>
 						</div>
@@ -127,20 +135,24 @@ const Navbar = () => {
 						>
 							Cart
 							<div className="cart relative">
-									<i className="fa-solid fa-cart-shopping fa-lg"></i>
-									<span className="absolute -right-1 top-[-6.25px] text-[10px] text-primary bg-white leading-[7px] p-1 rounded-full">
-										0
-									</span>
+								<i className="fa-solid fa-cart-shopping fa-lg"></i>
+								<span className="absolute -right-1 top-[-6.25px] text-[10px] text-primary bg-white leading-[7px] p-1 rounded-full">
+									0
+								</span>
 							</div>
 						</Link>
 					</div>
 
 					{/* Mobile Register and Login Buttons */}
 					<div className="btns flex flex-col gap-4">
-						<Link to="/register" className="btn-style" aria-label="Register">
+						<Link
+							to="/register"
+							className="btn-secondary"
+							aria-label="Register"
+						>
 							Register
 						</Link>
-						<Link to="/login" className="btn-style" aria-label="Login">
+						<Link to="/login" className="btn-secondary" aria-label="Login">
 							Login
 						</Link>
 					</div>

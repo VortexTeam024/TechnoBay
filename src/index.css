@@ -60,7 +60,10 @@ html {
 }
 
 @layer base {
-  .btn-style {
+  .btn-primary {
+    @apply px-5 py-3 rounded-[16px] bg-primary text-white text-xl transition-all hover:text-primary hover:bg-white font-semibold;
+  }
+  .btn-secondary {
     @apply border-[3px] border-white w-fit px-6 font-semibold text-lg text-white rounded-xl py-2 transition-all hover:bg-white hover:text-primary;
   }
 }

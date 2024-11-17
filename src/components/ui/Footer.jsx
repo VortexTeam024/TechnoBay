@@ -3,7 +3,7 @@ const Footer = () => {
     <footer className="p-10 bg-primary rounded-t-[28px]">
       <div className="container grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-12 place-items-top">
         <div className="col">
-          <img src="./assets/Logo.png" width={"100px"} height={"100px"} alt="" />
+          <img src="/assets/Logo.png" width={"100px"} height={"100px"} alt="" />
           <h5 className="text-[14px] font-bold text-white">Discover the Latest in Electronics Shop Smart, Live Connected!</h5>
         </div>
         <div className="col">
