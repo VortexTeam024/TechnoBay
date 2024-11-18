@@ -45,7 +45,7 @@ const Wishlist = () => {
   return (
     <>
       <Navbar />
-      <main className="mt-[145px] lg:mt-[140px] min-h-heroSize">
+      <main className="mt-[145px] lg:mt-[140px]">
         <h1 className="text-5xl font-bold italic border-b-[3px] border-black pb-2 mx-auto my-12 w-fit">Wishlist</h1>
         <div className="container">
           <div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5 mb-12">
