@@ -212,7 +212,7 @@ const Home = () => {
 									<img src="./assets/shopcard1.png" alt="" />
 									<div className="text p-1 px-2">
 										<h4 className="font-semibold text-[16px]">
-											Top Rated recommend
+											Top Rated
 										</h4>
 										<p className="text-[12px]">Stay in trend</p>
 									</div>

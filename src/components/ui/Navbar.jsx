@@ -1,8 +1,18 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false);
+	const [username, setUsername] = useState(null);
+	useEffect(() => {
+		const storedUsername = localStorage.getItem("username");
+		setUsername(storedUsername);
+	}, []);
+	const handleLogout = () => {
+		localStorage.removeItem("username");
+		setUsername(null);
+		window.location.reload();
+	};
 	return (
 		<header className="h-fit lg:h-[120px] w-screen fixed top-0 left-0 z-50">
 			<nav className="top-nav h-[70px] bg-primary">
@@ -46,17 +56,29 @@ const Navbar = () => {
 								</div>
 							</Link>
 						</div>
-						<div className="btns hidden lg:flex items-center gap-4">
-							<Link
-								to="/register"
-								className="btn-secondary"
-								aria-label="Register"
-							>
-								Register
-							</Link>
-							<Link to="/login" className="btn-secondary" aria-label="Login">
-								Login
-							</Link>
+						<div className="hidden lg:flex items-center gap-4">
+							{ username ? (
+								<>
+									<div className="flex items-center gap-3">
+										<img src="/assets/user-icon.svg" alt="User Icon" className="w-[36px] h-[36px]" />
+										<span className="text-white font-medium">{username}</span>
+									</div>
+									<button className="btn-secondary" onClick={handleLogout}>Log out</button>
+								</>
+							) : (
+								<>
+									<Link
+										to="/register"
+										className="btn-secondary"
+										aria-label="Register"
+									>
+										Register
+									</Link>
+									<Link to="/login" className="btn-secondary" aria-label="Login">
+										Login
+									</Link>
+								</>
+							)}
 						</div>
 					</div>
 				</div>
@@ -144,18 +166,28 @@ const Navbar = () => {
 					</div>
 
 					{/* Mobile Register and Login Buttons */}
-					<div className="btns flex flex-col gap-4">
-						<Link
-							to="/register"
-							className="btn-secondary"
-							aria-label="Register"
-						>
-							Register
-						</Link>
-						<Link to="/login" className="btn-secondary" aria-label="Login">
-							Login
-						</Link>
-					</div>
+					{ username ? (
+						<div className="flex items-center gap-4">
+							<div className="flex items-center gap-3">
+								<img src="/assets/user-icon.svg" alt="User Icon" className="w-[36px] h-[36px]" />
+								<span className="text-white font-medium">{username}</span>
+							</div>
+							<button className="btn-secondary" onClick={handleLogout}>Log out</button>
+						</div>
+					) : (
+						<div className="btns flex flex-col gap-4">
+							<Link
+								to="/register"
+								className="btn-secondary"
+								aria-label="Register"
+							>
+								Register
+							</Link>
+							<Link to="/login" className="btn-secondary" aria-label="Login">
+								Login
+							</Link>
+						</div>
+					) }
 				</div>
 			</nav>
 		</header>

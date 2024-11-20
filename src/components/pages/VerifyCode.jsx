@@ -1,30 +1,57 @@
 import { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import "react-toastify/dist/ReactToastify.css";
+
+const apiUrl = import.meta.env.VITE_VERIFY_CODE_API_URL;
 
 const VerifyCode = () => {
-	const [formData, setFormData] = useState({
-		code: "",
-	});
+	const navigate = useNavigate();
+	const [code, setCode] = useState("");
 
-	const [errors, setErrors] = useState({});
+	const handleInputChange = (e) => {
+		setCode(e.target.value);
+	};
 
-	const handleSubmit = (e) => {
+	const handleVerifyCode = async (e) => {
 		e.preventDefault();
-		const validationErrors = validateForm(formData);
-		setErrors(validationErrors);
-	};
 
-	const handleChange = (e) => {
-		const { name, value } = e.target;
-		setFormData({ ...formData, [name]: value });
-	};
-
-	const validateForm = (data) => {
-		let errors = {};
-		if (!data.code) {
-			errors.code = "Code is required";
+		// Validate code field
+		if (!code) {
+			toast.error("Please enter the verification code.");
+			return;
 		}
-		return errors;
+
+		const requestData = {
+			resetCode: code,
+		};
+
+		try {
+			const response = await fetch(
+				apiUrl,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(requestData),
+				}
+			);
+
+			if (!response.ok) {
+				const errorData = await response.json();
+				console.log("Error response:", errorData);
+				toast.error(`Code verification failed: ${errorData.message}`);
+			} else {
+				const result = await response.json();
+				toast.success(result.message || "Code verified successfully.");
+				navigate("/reset-password"); // Redirect to reset password page after successful verification
+			}
+		} catch (error) {
+			console.log("error: ", error);
+			toast.error("An error occurred while verifying the code.");
+		}
 	};
 
 	return (
@@ -57,7 +84,7 @@ const VerifyCode = () => {
 				</div>
 
 				{/* Form */}
-				<form className="w-full" onSubmit={handleSubmit}>
+				<form className="w-full" onSubmit={handleVerifyCode}>
 					{/* Username Input */}
 					<div className="w-full mb-[20px] sm:mb-[30px]">
 						<input
@@ -65,12 +92,9 @@ const VerifyCode = () => {
 							type="text"
 							name="code"
 							placeholder="Verify Code"
-							onChange={handleChange}
-							value={formData.code}
+							onChange={handleInputChange}
+							value={code}
 						/>
-						{errors.code && (
-							<span className="text-red-500 text-sm">{errors.code}</span>
-						)}
 					</div>
 
 					{/* Login Button */}
@@ -84,12 +108,12 @@ const VerifyCode = () => {
 				{/* Footer */}
 				<div className="text-center mt-[20px] sm:mt-[30px]">
 					<div className="flex justify-center items-center text-[18px] sm:text-[22px]">
-						<span className="text-black mr-[10px]">Don’t have an account?</span>
+						<span className="text-black mr-[10px]">Didn&apos;t receive the code?</span>
 						<Link
-							to="/register"
+							to="/forget-password"
 							className="text-primary font-bold hover:underline focus:outline-none"
 						>
-							Sign Up
+							Resend
 						</Link>
 					</div>
 				</div>
@@ -101,6 +125,7 @@ const VerifyCode = () => {
 				src="./assets/login2.png"
 				alt="Bottom Decoration"
 			/>
+			<ToastContainer />
 		</div>
 	);
 };

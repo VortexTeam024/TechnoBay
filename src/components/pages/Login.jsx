@@ -1,35 +1,64 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const apiUrl = import.meta.env.VITE_LOGIN_API_URL;
 
 const Login = () => {
+	const navigate = useNavigate(); // useNavigate to redirect after login
 	const [formData, setFormData] = useState({
-		username: "",
+		email: "",
 		password: "",
 	});
 
-	const [errors, setErrors] = useState({});
-
-	const handleSubmit = (e) => {
-		e.preventDefault();
-		const validationErrors = validateForm(formData);
-		setErrors(validationErrors);
-	};
-
-	const handleChange = (e) => {
+	const handleInputChange = (e) => {
 		const { name, value } = e.target;
-		setFormData({ ...formData, [name]: value });
+		setFormData((prevData) => ({
+			...prevData,
+			[name]: value,
+		}));
 	};
 
-	const validateForm = (data) => {
-		let errors = {};
+	const handleLogin = async (e) => {
+		e.preventDefault();
 
-		if (!data.username) {
-			errors.username = "Username is required";
+		// Validate fields
+		if (!formData.email || !formData.password) {
+			toast.error("Please fill in both email and password.");
+			return;
 		}
-		if (!data.password) {
-			errors.password = "Password is required";
+
+		const requestData = {
+			email: formData.email,
+			password: formData.password,
+		};
+
+		try {
+			const response = await fetch(
+				apiUrl,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(requestData),
+				}
+			);
+
+			if (!response.ok) {
+				const errorData = await response.json();
+				toast.error(`${errorData.message}`);
+			} else {
+				const result = await response.json();
+				localStorage.setItem("username", result.data.username);
+				toast.success("Login successful!");
+				navigate("/");
+			}
+		} catch (error) {
+			console.log("error: ", error);
+			toast.error("An error occurred while logging in.");
 		}
-		return errors;
 	};
 
 	return (
@@ -62,20 +91,17 @@ const Login = () => {
 				</div>
 
 				{/* Form */}
-				<form className="w-full" onSubmit={handleSubmit}>
+				<form className="w-full" onSubmit={handleLogin} autoComplete="off">
 					{/* Username Input */}
 					<div className="w-full mb-[20px] sm:mb-[30px]">
 						<input
 							className="w-full px-[16px] sm:px-[36px] py-[12px] sm:py-[16px] text-[18px] sm:text-[22px] placeholder:text-black bg-[#f2f2f2] border rounded-[8px] sm:rounded-[12px] focus:outline-none"
-							type="text"
-							name="username"
-							placeholder="Username"
-							onChange={handleChange}
-							value={formData.username}
+							type="email"
+							name="email"
+							placeholder="Email"
+							onChange={handleInputChange}
+							value={formData.email}
 						/>
-						{errors.username && (
-							<span className="text-red-500 text-sm">{errors.username}</span>
-						)}
 					</div>
 
 					{/* Password Input */}
@@ -85,12 +111,9 @@ const Login = () => {
 							type="password"
 							name="password"
 							placeholder="Password"
-							onChange={handleChange}
+							onChange={handleInputChange}
 							value={formData.password}
 						/>
-						{errors.password && (
-							<span className="text-red-500 text-sm">{errors.password}</span>
-						)}
 					</div>
 
 					{/* Login Button */}
@@ -124,6 +147,7 @@ const Login = () => {
 				src="./assets/login2.png"
 				alt="Bottom Decoration"
 			/>
+			<ToastContainer />
 		</div>
 	);
 };

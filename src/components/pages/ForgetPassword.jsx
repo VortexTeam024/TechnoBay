@@ -1,30 +1,60 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+const apiUrl = import.meta.env.VITE_FORGET_PASSWORD_API_URL;
+
 
 const ForgetPassword = () => {
-	const [formData, setFormData] = useState({
-		email: "",
-	});
+	const navigate = useNavigate();
+	const [email, setEmail] = useState("");
 
-	const [errors, setErrors] = useState({});
+	const handleInputChange = (e) => {
+		setEmail(e.target.value);
+	};
 
-	const handleSubmit = (e) => {
+	const handleResetPassword = async (e) => {
 		e.preventDefault();
-		const validationErrors = validateForm(formData);
-		setErrors(validationErrors);
-	};
 
-	const handleChange = (e) => {
-		const { name, value } = e.target;
-		setFormData({ ...formData, [name]: value });
-	};
-
-	const validateForm = (data) => {
-		let errors = {};
-		if (!data.email) {
-			errors.email = "Email is required";
+		// Validate email field
+		if (!email) {
+			toast.error("Please enter your email.");
+			return;
 		}
-		return errors;
+
+		const requestData = {
+			email: email,
+		};
+
+		try {
+			const response = await fetch(
+				apiUrl,
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(requestData),
+				}
+			);
+
+			if (!response.ok) {
+				const errorData = await response.json();
+				console.log("Error response:", errorData);
+				toast.error(`Password reset failed: ${errorData.message}`);
+			} else {
+				const result = await response.json();
+				toast.success(
+					result.message || "Check your email for password reset instructions."
+				);
+				localStorage.setItem("resetEmail", email);
+				navigate("/verify-code");
+			}
+		} catch (error) {
+			console.log("error: ", error);
+			toast.error("An error occurred while requesting password reset.");
+		}
 	};
 
 	return (
@@ -57,7 +87,7 @@ const ForgetPassword = () => {
 				</div>
 
 				{/* Form */}
-				<form className="w-full" onSubmit={handleSubmit}>
+				<form className="w-full" onSubmit={handleResetPassword}>
 					{/* Username Input */}
 					<div className="w-full mb-[20px] sm:mb-[30px]">
 						<input
@@ -65,12 +95,9 @@ const ForgetPassword = () => {
 							type="email"
 							name="email"
 							placeholder="Email"
-							onChange={handleChange}
-							value={formData.email}
+							onChange={handleInputChange}
+							value={email}
 						/>
-						{errors.email && (
-							<span className="text-red-500 text-sm">{errors.email}</span>
-						)}
 					</div>
 
 					{/* Login Button */}
@@ -84,12 +111,12 @@ const ForgetPassword = () => {
 				{/* Footer */}
 				<div className="text-center mt-[20px] sm:mt-[30px]">
 					<div className="flex justify-center items-center text-[18px] sm:text-[22px]">
-						<span className="text-black mr-[10px]">Don’t have an account?</span>
+						<span className="text-black mr-[10px]">Remembered your password?</span>
 						<Link
-							to="/register"
+							to="/login"
 							className="text-primary font-bold hover:underline focus:outline-none"
 						>
-							Sign Up
+							Login
 						</Link>
 					</div>
 				</div>
@@ -101,6 +128,7 @@ const ForgetPassword = () => {
 				src="./assets/login2.png"
 				alt="Bottom Decoration"
 			/>
+			<ToastContainer />
 		</div>
 	);
 };
