@@ -1,129 +1,131 @@
+/* eslint-disable no-unused-vars */
+import { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import Navbar from "../ui/Navbar";
+import Footer from "../ui/Footer";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
-import { Link } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
-import { useState } from "react";
-import Navbar from "../ui/Navbar";
-import Footer from "../ui/Footer";
+import { ProductContext } from "../contexts/Products.context";
 
-const recommend = [
-	{
-		id: 1,
-		name: "ASUS VivoBook Laptop With 15.6-Inch Display, Core i5-133…",
-		price: 13450,
-		originalPrice: 18700,
-		discount: "28%",
-		freeDelivery: true,
-		image: "./assets/recommend1.png",
-	},
-	{
-		id: 2,
-		name: "Generic P9 Wireless Bluetooth Headset Pure Stereo Sound …",
-		price: 320,
-		originalPrice: 400,
-		discount: "20%",
-		freeDelivery: true,
-		image: "./assets/recommend2.png",
-	},
-	{
-		id: 3,
-		name: "Apple iPhone 15 Pro Max 256GB Natural Titanium 5G …",
-		price: "61,460",
-		originalPrice: "62,700",
-		discount: "10%",
-		freeDelivery: true,
-		image: "./assets/recommend4.png",
-	},
-	{
-		id: 4,
-		name: "Oraimo Watch 4 Plus Bluetooth Call Smart Watch 2…",
-		price: "1,449",
-		originalPrice: "2,400",
-		discount: "52%",
-		freeDelivery: true,
-		image: "./assets/recommend3.png",
-	},
-];
+// const recommend = [
+// 	{
+// 		id: 1,
+// 		name: "ASUS VivoBook Laptop With 15.6-Inch Display, Core i5-133…",
+// 		price: 13450,
+// 		originalPrice: 18700,
+// 		discount: "28%",
+// 		freeDelivery: true,
+// 		image: "./assets/recommend1.png",
+// 	},
+// 	{
+// 		id: 2,
+// 		name: "Generic P9 Wireless Bluetooth Headset Pure Stereo Sound …",
+// 		price: 320,
+// 		originalPrice: 400,
+// 		discount: "20%",
+// 		freeDelivery: true,
+// 		image: "./assets/recommend2.png",
+// 	},
+// 	{
+// 		id: 3,
+// 		name: "Apple iPhone 15 Pro Max 256GB Natural Titanium 5G …",
+// 		price: "61,460",
+// 		originalPrice: "62,700",
+// 		discount: "10%",
+// 		freeDelivery: true,
+// 		image: "./assets/recommend4.png",
+// 	},
+// 	{
+// 		id: 4,
+// 		name: "Oraimo Watch 4 Plus Bluetooth Call Smart Watch 2…",
+// 		price: "1,449",
+// 		originalPrice: "2,400",
+// 		discount: "52%",
+// 		freeDelivery: true,
+// 		image: "./assets/recommend3.png",
+// 	},
+// ];
 
-const laptops = [
-	{
-		id: 1,
-		name: "ASUS VivoBook Laptop With 15.6-Inch Display, Core i5-133…",
-		price: 13450,
-		originalPrice: 18700,
-		discount: "28%",
-		freeDelivery: true,
-		image: "./assets/laptop1.png",
-	},
-	{
-		id: 2,
-		name: "ASUS VivoBook Laptop With 15.6-Inch Display, Core i5-133…",
-		price: 13450,
-		originalPrice: 18700,
-		discount: "28%",
-		freeDelivery: true,
-		image: "./assets/laptop2.png",
-	},
-	{
-		id: 3,
-		name: "ASUS VivoBook Laptop With 15.6-Inch Display, Core i5-133…",
-		price: 13450,
-		originalPrice: 18700,
-		discount: "28%",
-		freeDelivery: true,
-		image: "./assets/laptop3.png",
-	},
-	{
-		id: 4,
-		name: "ASUS VivoBook Laptop With 15.6-Inch Display, Core i5-133…",
-		price: 13450,
-		originalPrice: 18700,
-		discount: "28%",
-		freeDelivery: true,
-		image: "./assets/laptop4.png",
-	},
-];
+// const laptops = [
+// 	{
+// 		id: 1,
+// 		name: "ASUS VivoBook Laptop With 15.6-Inch Display, Core i5-133…",
+// 		price: 13450,
+// 		originalPrice: 18700,
+// 		discount: "28%",
+// 		freeDelivery: true,
+// 		image: "./assets/laptop1.png",
+// 	},
+// 	{
+// 		id: 2,
+// 		name: "ASUS VivoBook Laptop With 15.6-Inch Display, Core i5-133…",
+// 		price: 13450,
+// 		originalPrice: 18700,
+// 		discount: "28%",
+// 		freeDelivery: true,
+// 		image: "./assets/laptop2.png",
+// 	},
+// 	{
+// 		id: 3,
+// 		name: "ASUS VivoBook Laptop With 15.6-Inch Display, Core i5-133…",
+// 		price: 13450,
+// 		originalPrice: 18700,
+// 		discount: "28%",
+// 		freeDelivery: true,
+// 		image: "./assets/laptop3.png",
+// 	},
+// 	{
+// 		id: 4,
+// 		name: "ASUS VivoBook Laptop With 15.6-Inch Display, Core i5-133…",
+// 		price: 13450,
+// 		originalPrice: 18700,
+// 		discount: "28%",
+// 		freeDelivery: true,
+// 		image: "./assets/laptop4.png",
+// 	},
+// ];
 
-const mobiles = [
-	{
-		id: 1,
-		name: "IPHONE 16 Pro Max 54 MPX and with Powerfull Processor, Scre..",
-		price: "67,450",
-		originalPrice: "70,700",
-		discount: "28%",
-		freeDelivery: true,
-		image: "./assets/mobile1.png",
-	},
-	{
-		id: 2,
-		name: "IPHONE 16 Pro Max 54 MPX and with Powerfull Processor, Scre..",
-		price: "67,450",
-		originalPrice: "70,700",
-		discount: "28%",
-		freeDelivery: true,
-		image: "./assets/mobile2.png",
-	},
-	{
-		id: 3,
-		name: "IPHONE 16 Pro Max 54 MPX and with Powerfull Processor, Scre..",
-		price: "67,450",
-		originalPrice: "70,700",
-		discount: "28%",
-		freeDelivery: true,
-		image: "./assets/mobile3.png",
-	},
-	{
-		id: 4,
-		name: "IPHONE 16 Pro Max 54 MPX and with Powerfull Processor, Scre..",
-		price: "67,450",
-		originalPrice: "70,700",
-		discount: "28%",
-		freeDelivery: true,
-		image: "./assets/mobile4.png",
-	},
-];
+// const mobiles = [
+// 	{
+// 		id: 1,
+// 		name: "IPHONE 16 Pro Max 54 MPX and with Powerfull Processor, Scre..",
+// 		price: "67,450",
+// 		originalPrice: "70,700",
+// 		discount: "28%",
+// 		freeDelivery: true,
+// 		image: "./assets/mobile1.png",
+// 	},
+// 	{
+// 		id: 2,
+// 		name: "IPHONE 16 Pro Max 54 MPX and with Powerfull Processor, Scre..",
+// 		price: "67,450",
+// 		originalPrice: "70,700",
+// 		discount: "28%",
+// 		freeDelivery: true,
+// 		image: "./assets/mobile2.png",
+// 	},
+// 	{
+// 		id: 3,
+// 		name: "IPHONE 16 Pro Max 54 MPX and with Powerfull Processor, Scre..",
+// 		price: "67,450",
+// 		originalPrice: "70,700",
+// 		discount: "28%",
+// 		freeDelivery: true,
+// 		image: "./assets/mobile3.png",
+// 	},
+// 	{
+// 		id: 4,
+// 		name: "IPHONE 16 Pro Max 54 MPX and with Powerfull Processor, Scre..",
+// 		price: "67,450",
+// 		originalPrice: "70,700",
+// 		discount: "28%",
+// 		freeDelivery: true,
+// 		image: "./assets/mobile4.png",
+// 	},
+// ];
 
 const brands = [
 	"./assets/brand1.png",
@@ -139,14 +141,57 @@ const brands = [
 ];
 
 const Home = () => {
-	const [favorites, setFavorites] = useState([]);
-	const toggleFavorite = (productId) => {
-		setFavorites((prevFavorites) =>
-			prevFavorites.includes(productId)
-				? prevFavorites.filter((id) => id !== productId)
-				: [...prevFavorites, productId]
-		);
-	};
+	const { products } = useContext(ProductContext);
+  const [laptops, setLaptops] = useState([]);
+	const [featuredProducts, setFeaturedProducts] = useState({
+		laptop: null,
+		phone: null,
+		screen: null,
+		smartWatch: null
+	});
+  const [phones, setPhones] = useState([]);
+
+  useEffect(() => {
+    if (Array.isArray(products)) {
+      const filteredLaptops = products
+        .filter((product) => product.category.title === "Laptops")
+        .slice(0, 4);
+      setLaptops(filteredLaptops);
+
+			const filteredPhones = products
+        .filter((product) => product.category.title === "Phones")
+        .slice(0, 4);
+      setPhones(filteredPhones);
+
+			const laptop = products.find(product => product.category.title === "Laptops");
+			const phone = products.find(product => product.category.title === "Phones");
+			const screen = products.find(product => product.category.title === "Screens");
+			const smartWatch = products.find(product => product.category.title === "Smart Watches");
+
+			setFeaturedProducts({
+				laptop: laptop || null,
+				phone: phone || null,
+				screen: screen || null,
+				smartWatch: smartWatch || null
+			});
+		}
+  }, [products]);
+	const handleSalePercentage = (originalPrice, discountedPrice) => {
+		if (originalPrice <= 0 || discountedPrice < 0) {
+			return "Invalid prices";
+		}
+		const salePercentage = ((originalPrice - discountedPrice) / originalPrice) * 100;
+		return salePercentage.toFixed(2);
+	}
+
+  const [favorites, setFavorites] = useState([]);
+  const toggleFavorite = (productId) => {
+    setFavorites((prevFavorites) =>
+      prevFavorites.includes(productId)
+        ? prevFavorites.filter((id) => id !== productId)
+        : [...prevFavorites, productId]
+    );
+  };
 	return (
 		<>
 			<Navbar />
@@ -211,9 +256,7 @@ const Home = () => {
 								<div className="bg-[#D1E7FB] w-[175px] rounded-[10px]">
 									<img src="./assets/shopcard1.png" alt="" />
 									<div className="text p-1 px-2">
-										<h4 className="font-semibold text-[16px]">
-											Top Rated
-										</h4>
+										<h4 className="font-semibold text-[16px]">Top Rated</h4>
 										<p className="text-[12px]">Stay in trend</p>
 									</div>
 								</div>
@@ -373,17 +416,19 @@ const Home = () => {
 				<section className="recommend container my-6">
 					<h1 className="text-4xl font-bold pb-6">Recommended For You</h1>
 					<div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
-						{recommend.map((product) => (
+					{Object.entries(featuredProducts)
+						.filter(([key, product]) => product !== null)
+						.map(([key, product]) => (
 							<Link
-								key={product.id}
-								to="/1234dsa/details"
+								key={key}
+								to={`/product/${product.id}`}
 								className="product bg-white p-2 rounded-[20px] shadow-2xl"
 							>
 								<div
 									className="image bg-[#F6F6F6] p-4 w-full h-[254px] justify-center flex rounded-[20px] relative"
-									aria-label={`${product.name} Image`}
+									aria-label={`${product.title} Image`}
 								>
-									<img src={product.image} alt={product.name} />
+									<img src={product.images} alt={product.name} />
 									<div className="tools absolute flex flex-col justify-between top-5 right-2 h-[90%]">
 										<button
 											onClick={() => toggleFavorite(product.id)}
@@ -401,36 +446,34 @@ const Home = () => {
 												}`}
 											></i>
 										</button>
-										<button aria-label={`Add ${product.name} to Cart`}>
+										<button aria-label={`Add ${product.title} to Cart`}>
 											<i className="fa-solid fa-cart-plus fa-xl text-black hover:text-primary transition-all"></i>
 										</button>
 									</div>
 								</div>
 								<div className="details p-2">
-									<h2 className="text-lg font-bold" aria-label={product.name}>
-										{product.name}
+									<h2 className="text-lg font-bold" aria-label={product.title}>
+										{product.title}
 									</h2>
 									<div className="price py-1 pr-3 flex items-center justify-between">
 										<p className="text-black font-light text-[16px] flex items-center gap-2 leading-none">
 											EGP{" "}
 											<span className="font-bold text-[20px]">
-												{product.price}
+												{product.priceAfterDiscount}
 											</span>
-											<del>{product.originalPrice}</del>
+											<del>{product.price}</del>
 										</p>
 										<p
 											className="percent text-[#1BB910] text-[16px] font-bold"
 											aria-label={`Discount: ${product.discount}`}
 										>
-											{product.discount} OFF
+											{handleSalePercentage(product.price, product.priceAfterDiscount)} OFF
 										</p>
 									</div>
-									{product.freeDelivery && (
-										<p className="free-delivery" aria-label="Free Delivery">
-											<i className="fa-solid fa-truck fa-md mr-2"></i> Free
-											Delivery
-										</p>
-									)}
+									<p className="free-delivery" aria-label="Free Delivery">
+										<i className="fa-solid fa-truck fa-md mr-2"></i> Free
+										Delivery
+									</p>
 								</div>
 							</Link>
 						))}
@@ -451,14 +494,14 @@ const Home = () => {
 						{laptops.map((product) => (
 							<Link
 								key={product.id}
-								to="/1234dsa/details"
+								to={`/product/${product.id}`}
 								className="product bg-white p-2 rounded-[20px] shadow-2xl"
 							>
 								<div
 									className="image bg-[#F6F6F6] p-4 w-full h-[254px] justify-center flex rounded-[20px] relative"
-									aria-label={`${product.name} Image`}
+									aria-label={`${product.title} Image`}
 								>
-									<img src={product.image} alt={product.name} />
+									<img src={product.images[0].url} alt={product.name} />
 									<div className="tools absolute flex flex-col justify-between top-5 right-2 h-[90%]">
 										<button
 											onClick={() => toggleFavorite(product.id)}
@@ -476,36 +519,34 @@ const Home = () => {
 												}`}
 											></i>
 										</button>
-										<button aria-label={`Add ${product.name} to Cart`}>
+										<button aria-label={`Add ${product.title} to Cart`}>
 											<i className="fa-solid fa-cart-plus fa-xl text-black hover:text-primary transition-all"></i>
 										</button>
 									</div>
 								</div>
 								<div className="details p-2">
-									<h2 className="text-lg font-bold" aria-label={product.name}>
-										{product.name}
+									<h2 className="text-lg font-bold" aria-label={product.title}>
+										{product.title}
 									</h2>
 									<div className="price py-1 pr-3 flex items-center justify-between">
 										<p className="text-black font-light text-[16px] flex items-center gap-2 leading-none">
 											EGP{" "}
 											<span className="font-bold text-[20px]">
-												{product.price}
+												{product.priceAfterDiscount}
 											</span>
-											<del>{product.originalPrice}</del>
+											<del>{product.price}</del>
 										</p>
 										<p
 											className="percent text-[#1BB910] text-[16px] font-bold"
 											aria-label={`Discount: ${product.discount}`}
 										>
-											{product.discount} OFF
+											{handleSalePercentage(product.price, product.priceAfterDiscount)} OFF
 										</p>
 									</div>
-									{product.freeDelivery && (
-										<p className="free-delivery" aria-label="Free Delivery">
-											<i className="fa-solid fa-truck fa-md mr-2"></i> Free
-											Delivery
-										</p>
-									)}
+									<p className="free-delivery" aria-label="Free Delivery">
+										<i className="fa-solid fa-truck fa-md mr-2"></i> Free
+										Delivery
+									</p>
 								</div>
 							</Link>
 						))}
@@ -519,65 +560,63 @@ const Home = () => {
 						</button>
 					</div>
 					<div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
-						{mobiles.map((product) => (
+						{phones.map((product) => (
 							<Link
-								key={product.id}
-								to="/1234dsa/details"
-								className="product bg-white p-2 rounded-[20px] shadow-2xl"
+							key={product.id}
+							to={`/product/${product.id}`}
+							className="product bg-white p-2 rounded-[20px] shadow-2xl"
+						>
+							<div
+								className="image bg-[#F6F6F6] p-4 w-full h-[254px] justify-center flex rounded-[20px] relative"
+								aria-label={`${product.title} Image`}
 							>
-								<div
-									className="image bg-[#F6F6F6] p-4 w-full h-[254px] justify-center flex rounded-[20px] relative"
-									aria-label={`${product.name} Image`}
-								>
-									<img src={product.image} alt={product.name} />
-									<div className="tools absolute flex flex-col justify-between top-5 right-2 h-[90%]">
-										<button
-											onClick={() => toggleFavorite(product.id)}
-											aria-label={`${
+								<img src={product.images[0].url} alt={product.name} />
+								<div className="tools absolute flex flex-col justify-between top-5 right-2 h-[90%]">
+									<button
+										onClick={() => toggleFavorite(product.id)}
+										aria-label={`${
+											favorites.includes(product.id)
+												? "Unfavorite"
+												: "Favorite"
+										} ${product.name}`}
+									>
+										<i
+											className={`fa-solid fa-heart fa-xl hover:text-[#ff0000] transition-all ${
 												favorites.includes(product.id)
-													? "Unfavorite"
-													: "Favorite"
-											} ${product.name}`}
-										>
-											<i
-												className={`fa-solid fa-heart fa-xl hover:text-[#ff0000] transition-all ${
-													favorites.includes(product.id)
-														? "text-[#ff0000]"
-														: "text-[#ccc]"
-												}`}
-											></i>
-										</button>
-										<button aria-label={`Add ${product.name} to Cart`}>
-											<i className="fa-solid fa-cart-plus fa-xl text-black hover:text-primary transition-all"></i>
-										</button>
-									</div>
+													? "text-[#ff0000]"
+													: "text-[#ccc]"
+											}`}
+										></i>
+									</button>
+									<button aria-label={`Add ${product.title} to Cart`}>
+										<i className="fa-solid fa-cart-plus fa-xl text-black hover:text-primary transition-all"></i>
+									</button>
 								</div>
-								<div className="details p-2">
-									<h2 className="text-lg font-bold" aria-label={product.name}>
-										{product.name}
-									</h2>
-									<div className="price py-1 pr-3 flex items-center justify-between">
-										<p className="text-black font-light text-[16px] flex items-center gap-2 leading-none">
-											EGP{" "}
-											<span className="font-bold text-[20px]">
-												{product.price}
-											</span>
-											<del>{product.originalPrice}</del>
-										</p>
-										<p
-											className="percent text-[#1BB910] text-[16px] font-bold"
-											aria-label={`Discount: ${product.discount}`}
-										>
-											{product.discount} OFF
-										</p>
-									</div>
-									{product.freeDelivery && (
-										<p className="free-delivery" aria-label="Free Delivery">
-											<i className="fa-solid fa-truck fa-md mr-2"></i> Free
-											Delivery
-										</p>
-									)}
+							</div>
+							<div className="details p-2">
+								<h2 className="text-lg font-bold" aria-label={product.title}>
+									{product.title}
+								</h2>
+								<div className="price py-1 pr-3 flex items-center justify-between">
+									<p className="text-black font-light text-[16px] flex items-center gap-2 leading-none">
+										EGP{" "}
+										<span className="font-bold text-[20px]">
+											{product.priceAfterDiscount}
+										</span>
+										<del>{product.price}</del>
+									</p>
+									<p
+										className="percent text-[#1BB910] text-[16px] font-bold"
+										aria-label={`Discount: ${product.discount}`}
+									>
+										{handleSalePercentage(product.price, product.priceAfterDiscount)} OFF
+									</p>
 								</div>
+								<p className="free-delivery" aria-label="Free Delivery">
+									<i className="fa-solid fa-truck fa-md mr-2"></i> Free
+									Delivery
+								</p>
+							</div>
 							</Link>
 						))}
 					</div>

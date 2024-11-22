@@ -16,31 +16,34 @@ import Register from "./components/pages/Register";
 import ForgetPassword from "./components/pages/ForgetPassword";
 import VerifyCode from "./components/pages/VerifyCode";
 import NewPassword from "./components/pages/NewPassword";
+import { ProductProvider } from "./components/providers/Products.provider";
 
 const App = () => {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/laptop" element={<Laptops />} />
-        <Route path="/mobile" element={<Mobiles />} />
-        <Route path="/television" element={<Television />} />
-        <Route path="/smart-watch" element={<SmartWatch />} />
-        <Route path="/tablet" element={<Tablet />} />
-        <Route path="/earphone" element={<Earphone />} />
-        <Route path="/camera" element={<Camera />} />
-        <Route path="/accessory" element={<Accessory />} />
-        <Route path="/1234dsa/details" element={<ProductDetails />} />
-        <Route path="/wishlist" element={<Wishlist />} />
-        <Route path="/cart" element={<Cart />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/forget-password" element={<ForgetPassword />} />
-        <Route path="/verify-code" element={<VerifyCode />} />
-        <Route path="/reset-password" element={<NewPassword />} />
-      </Routes>
-    </Router>
-  );
+	return (
+		<ProductProvider>
+			<Router>
+				<Routes>
+					<Route path="/" element={<Home />} />
+					<Route path="/laptop" element={<Laptops />} />
+					<Route path="/mobile" element={<Mobiles />} />
+					<Route path="/television" element={<Television />} />
+					<Route path="/smart-watch" element={<SmartWatch />} />
+					<Route path="/tablet" element={<Tablet />} />
+					<Route path="/earphone" element={<Earphone />} />
+					<Route path="/camera" element={<Camera />} />
+					<Route path="/accessory" element={<Accessory />} />
+					<Route path="/product/:id" element={<ProductDetails />} />
+					<Route path="/wishlist" element={<Wishlist />} />
+					<Route path="/cart" element={<Cart />} />
+					<Route path="/login" element={<Login />} />
+					<Route path="/register" element={<Register />} />
+					<Route path="/forget-password" element={<ForgetPassword />} />
+					<Route path="/verify-code" element={<VerifyCode />} />
+					<Route path="/reset-password" element={<NewPassword />} />
+				</Routes>
+			</Router>
+		</ProductProvider>
+	);
 };
 
 export default App;
