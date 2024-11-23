@@ -141,57 +141,69 @@ const brands = [
 ];
 
 const Home = () => {
-	const { products } = useContext(ProductContext);
-  const [laptops, setLaptops] = useState([]);
+	const { products, wishlist, addToWishlist, removeFromWishlist } = useContext(ProductContext);
+	const [laptops, setLaptops] = useState([]);
 	const [featuredProducts, setFeaturedProducts] = useState({
 		laptop: null,
 		phone: null,
 		screen: null,
-		smartWatch: null
+		smartWatch: null,
 	});
-  const [phones, setPhones] = useState([]);
+	const [phones, setPhones] = useState([]);
 
-  useEffect(() => {
-    if (Array.isArray(products)) {
-      const filteredLaptops = products
-        .filter((product) => product.category.title === "Laptops")
-        .slice(0, 4);
-      setLaptops(filteredLaptops);
+	// تحديد المنتجات المميزة
+	useEffect(() => {
+		if (Array.isArray(products)) {
+			const filteredLaptops = products
+				.filter((product) => product.category.title === "Laptops")
+				.slice(0, 4);
+			setLaptops(filteredLaptops);
 
 			const filteredPhones = products
-        .filter((product) => product.category.title === "Phones")
-        .slice(0, 4);
-      setPhones(filteredPhones);
+				.filter((product) => product.category.title === "Phones")
+				.slice(0, 4);
+			setPhones(filteredPhones);
 
-			const laptop = products.find(product => product.category.title === "Laptops");
-			const phone = products.find(product => product.category.title === "Phones");
-			const screen = products.find(product => product.category.title === "Screens");
-			const smartWatch = products.find(product => product.category.title === "Smart Watches");
+			const laptop = products.find(
+				(product) => product.category.title === "Laptops"
+			);
+			const phone = products.find(
+				(product) => product.category.title === "Phones"
+			);
+			const screen = products.find(
+				(product) => product.category.title === "Screens"
+			);
+			const smartWatch = products.find(
+				(product) => product.category.title === "Smart Watches"
+			);
 
 			setFeaturedProducts({
 				laptop: laptop || null,
 				phone: phone || null,
 				screen: screen || null,
-				smartWatch: smartWatch || null
+				smartWatch: smartWatch || null,
 			});
 		}
-  }, [products]);
+	}, [products]);
+
+	// حساب نسبة الخصم
 	const handleSalePercentage = (originalPrice, discountedPrice) => {
 		if (originalPrice <= 0 || discountedPrice < 0) {
 			return "Invalid prices";
 		}
-		const salePercentage = ((originalPrice - discountedPrice) / originalPrice) * 100;
+		const salePercentage =
+			((originalPrice - discountedPrice) / originalPrice) * 100;
 		return salePercentage.toFixed(2);
-	}
+	};
 
-  const [favorites, setFavorites] = useState([]);
-  const toggleFavorite = (productId) => {
-    setFavorites((prevFavorites) =>
-      prevFavorites.includes(productId)
-        ? prevFavorites.filter((id) => id !== productId)
-        : [...prevFavorites, productId]
-    );
-  };
+	const toggleFavorite = (product) => {
+		if (wishlist.some((item) => item.id === product.id)) {
+			removeFromWishlist(product.id);
+		} else {
+			addToWishlist(product);
+		}
+	};
+
 	return (
 		<>
 			<Navbar />
@@ -416,67 +428,87 @@ const Home = () => {
 				<section className="recommend container my-6">
 					<h1 className="text-4xl font-bold pb-6">Recommended For You</h1>
 					<div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
-					{Object.entries(featuredProducts)
-						.filter(([key, product]) => product !== null)
-						.map(([key, product]) => (
-							<Link
-								key={key}
-								to={`/product/${product.id}`}
-								className="product bg-white p-2 rounded-[20px] shadow-2xl"
-							>
-								<div
-									className="image bg-[#F6F6F6] p-4 w-full h-[254px] justify-center flex rounded-[20px] relative"
-									aria-label={`${product.title} Image`}
+						{Object.entries(featuredProducts)
+							.filter(([key, product]) => product !== null)
+							.map(([key, product]) => (
+								<article
+									key={product.id}
+									className="product bg-white p-2 rounded-[20px] shadow-2xl relative z-40"
 								>
-									<img src={product.images} alt={product.name} />
-									<div className="tools absolute flex flex-col justify-between top-5 right-2 h-[90%]">
-										<button
-											onClick={() => toggleFavorite(product.id)}
-											aria-label={`${
-												favorites.includes(product.id)
-													? "Unfavorite"
-													: "Favorite"
-											} ${product.name}`}
-										>
-											<i
-												className={`fa-solid fa-heart fa-xl hover:text-[#ff0000] transition-all ${
-													favorites.includes(product.id)
-														? "text-[#ff0000]"
-														: "text-[#ccc]"
-												}`}
-											></i>
-										</button>
-										<button aria-label={`Add ${product.title} to Cart`}>
-											<i className="fa-solid fa-cart-plus fa-xl text-black hover:text-primary transition-all"></i>
-										</button>
+									<div
+										className="image bg-[#F6F6F6] p-4 w-full h-[254px] justify-center flex rounded-[20px] relative"
+										aria-label={`${product.title} Image`}
+									>
+										<Link to={`/product/${product.id}`}>
+											<img
+												src={product.images?.[0]?.url || "/placeholder.png"}
+												alt={product.name}
+											/>
+										</Link>
+										<div className="tools absolute z-50 flex flex-col justify-between top-5 right-2 h-[90%]">
+											<button
+												onClick={(e) => {
+													e.preventDefault();
+													toggleFavorite(product);
+												}}
+												aria-label={`${
+													wishlist.some((item) => item.id === product.id)
+														? "Unfavorite"
+														: "Favorite"
+												} ${product.name}`}
+											>
+												<i
+													className={`fa-solid fa-heart fa-xl hover:text-[#ff0000] transition-all ${
+														wishlist.some((item) => item.id === product.id)
+															? "text-[#ff0000]"
+															: "text-[#ccc]"
+													}`}
+												></i>
+											</button>
+											<button aria-label={`Add ${product.title} to Cart`}>
+												<i className="fa-solid fa-cart-plus fa-xl text-black hover:text-primary transition-all"></i>
+											</button>
+										</div>
 									</div>
-								</div>
-								<div className="details p-2">
-									<h2 className="text-lg font-bold" aria-label={product.title}>
-										{product.title}
-									</h2>
-									<div className="price py-1 pr-3 flex items-center justify-between">
-										<p className="text-black font-light text-[16px] flex items-center gap-2 leading-none">
-											EGP{" "}
-											<span className="font-bold text-[20px]">
-												{product.priceAfterDiscount}
-											</span>
-											<del>{product.price}</del>
-										</p>
+									<Link
+										to={`/product/${product.id}`}
+										className="details block p-2"
+									>
+										<h2
+											className="text-lg font-bold"
+											aria-label={product.title}
+										>
+											{product.title}
+										</h2>
+										<div className="price py-1 pr-3 flex items-center justify-between">
+											<p className="text-black font-light text-[16px] flex items-center gap-2 leading-none">
+												EGP{" "}
+												<span className="font-bold text-[20px]">
+													{product.priceAfterDiscount}
+												</span>
+												<del>{product.price}</del>
+											</p>
+											<p
+												className="percent text-[#1BB910] text-[16px] font-bold"
+												aria-label={`Discount: ${product.discount}`}
+											>
+												{handleSalePercentage(
+													product.price,
+													product.priceAfterDiscount
+												)}{" "}
+												OFF
+											</p>
+										</div>
 										<p
-											className="percent text-[#1BB910] text-[16px] font-bold"
-											aria-label={`Discount: ${product.discount}`}
+											className="free-delivery text-primary"
+											aria-label="Free Delivery"
 										>
-											{handleSalePercentage(product.price, product.priceAfterDiscount)} OFF
+											<i className="fa-solid fa-truck fa-md mr-2"></i> Free
+											Delivery
 										</p>
-									</div>
-									<p className="free-delivery" aria-label="Free Delivery">
-										<i className="fa-solid fa-truck fa-md mr-2"></i> Free
-										Delivery
-									</p>
-								</div>
-							</Link>
-						))}
+									</Link>
+								</article>
+							))}
 					</div>
 				</section>
 				<section className="news py-6 container grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -492,6 +524,92 @@ const Home = () => {
 					</div>
 					<div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
 						{laptops.map((product) => (
+							<article
+								key={product.id}
+								className="product bg-white p-2 rounded-[20px] shadow-2xl relative z-40"
+							>
+								<div
+									className="image bg-[#F6F6F6] p-4 w-full h-[254px] justify-center flex rounded-[20px] relative"
+									aria-label={`${product.title} Image`}
+								>
+									<Link to={`/product/${product.id}`}>
+										<img
+											src={product.images?.[0]?.url || "/placeholder.png"}
+											alt={product.name}
+										/>
+									</Link>
+									<div className="tools absolute z-50 flex flex-col justify-between top-5 right-2 h-[90%]">
+										<button
+											onClick={(e) => {
+												e.preventDefault();
+												toggleFavorite(product);
+											}}
+											aria-label={`${
+												wishlist.some((item) => item.id === product.id)
+													? "Unfavorite"
+													: "Favorite"
+											} ${product.name}`}
+										>
+											<i
+												className={`fa-solid fa-heart fa-xl hover:text-[#ff0000] transition-all ${
+													wishlist.some((item) => item.id === product.id)
+														? "text-[#ff0000]"
+														: "text-[#ccc]"
+												}`}
+											></i>
+										</button>
+										<button aria-label={`Add ${product.title} to Cart`}>
+											<i className="fa-solid fa-cart-plus fa-xl text-black hover:text-primary transition-all"></i>
+										</button>
+									</div>
+								</div>
+								<Link
+									to={`/product/${product.id}`}
+									className="details block p-2"
+								>
+									<h2 className="text-lg font-bold" aria-label={product.title}>
+										{product.title}
+									</h2>
+									<div className="price py-1 pr-3 flex items-center justify-between">
+										<p className="text-black font-light text-[16px] flex items-center gap-2 leading-none">
+											EGP{" "}
+											<span className="font-bold text-[20px]">
+												{product.priceAfterDiscount}
+											</span>
+											<del>{product.price}</del>
+										</p>
+										<p
+											className="percent text-[#1BB910] text-[16px] font-bold"
+											aria-label={`Discount: ${product.discount}`}
+										>
+											{handleSalePercentage(
+												product.price,
+												product.priceAfterDiscount
+											)}{" "}
+											OFF
+										</p>
+									</div>
+									<p
+										className="free-delivery text-primary"
+										aria-label="Free Delivery"
+									>
+										<i className="fa-solid fa-truck fa-md mr-2"></i> Free
+										Delivery
+									</p>
+								</Link>
+							</article>
+						))}
+					</div>
+				</section>
+				<section className="mobiles container my-6">
+					<div className="heading pb-6 flex items-center justify-between">
+						<h1 className="text-4xl font-bold">Mobiles</h1>
+						<button className="px-7 py-3 border-[3px] text-xl font-semibold border-primary text-primary rounded-[16px] transition-all hover:text-white hover:bg-primary">
+							Show More
+						</button>
+					</div>
+					<div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
+						{phones.map((product) => (
 							<Link
 								key={product.id}
 								to={`/product/${product.id}`}
@@ -501,19 +619,25 @@ const Home = () => {
 									className="image bg-[#F6F6F6] p-4 w-full h-[254px] justify-center flex rounded-[20px] relative"
 									aria-label={`${product.title} Image`}
 								>
-									<img src={product.images[0].url} alt={product.name} />
+									<img
+										src={product.images?.[0]?.url || "/placeholder.png"}
+										alt={product.name}
+									/>
 									<div className="tools absolute flex flex-col justify-between top-5 right-2 h-[90%]">
 										<button
-											onClick={() => toggleFavorite(product.id)}
+											onClick={(e) => {
+												e.preventDefault();
+												toggleFavorite(product);
+											}}
 											aria-label={`${
-												favorites.includes(product.id)
+												wishlist.some((item) => item.id === product.id)
 													? "Unfavorite"
 													: "Favorite"
 											} ${product.name}`}
 										>
 											<i
 												className={`fa-solid fa-heart fa-xl hover:text-[#ff0000] transition-all ${
-													favorites.includes(product.id)
+													wishlist.some((item) => item.id === product.id)
 														? "text-[#ff0000]"
 														: "text-[#ccc]"
 												}`}
@@ -540,83 +664,21 @@ const Home = () => {
 											className="percent text-[#1BB910] text-[16px] font-bold"
 											aria-label={`Discount: ${product.discount}`}
 										>
-											{handleSalePercentage(product.price, product.priceAfterDiscount)} OFF
+											{handleSalePercentage(
+												product.price,
+												product.priceAfterDiscount
+											)}{" "}
+											OFF
 										</p>
 									</div>
-									<p className="free-delivery" aria-label="Free Delivery">
+									<p
+										className="free-delivery text-primary"
+										aria-label="Free Delivery"
+									>
 										<i className="fa-solid fa-truck fa-md mr-2"></i> Free
 										Delivery
 									</p>
 								</div>
-							</Link>
-						))}
-					</div>
-				</section>
-				<section className="mobiles container my-6">
-					<div className="heading pb-6 flex items-center justify-between">
-						<h1 className="text-4xl font-bold">Mobiles</h1>
-						<button className="px-7 py-3 border-[3px] text-xl font-semibold border-primary text-primary rounded-[16px] transition-all hover:text-white hover:bg-primary">
-							Show More
-						</button>
-					</div>
-					<div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
-						{phones.map((product) => (
-							<Link
-							key={product.id}
-							to={`/product/${product.id}`}
-							className="product bg-white p-2 rounded-[20px] shadow-2xl"
-						>
-							<div
-								className="image bg-[#F6F6F6] p-4 w-full h-[254px] justify-center flex rounded-[20px] relative"
-								aria-label={`${product.title} Image`}
-							>
-								<img src={product.images[0].url} alt={product.name} />
-								<div className="tools absolute flex flex-col justify-between top-5 right-2 h-[90%]">
-									<button
-										onClick={() => toggleFavorite(product.id)}
-										aria-label={`${
-											favorites.includes(product.id)
-												? "Unfavorite"
-												: "Favorite"
-										} ${product.name}`}
-									>
-										<i
-											className={`fa-solid fa-heart fa-xl hover:text-[#ff0000] transition-all ${
-												favorites.includes(product.id)
-													? "text-[#ff0000]"
-													: "text-[#ccc]"
-											}`}
-										></i>
-									</button>
-									<button aria-label={`Add ${product.title} to Cart`}>
-										<i className="fa-solid fa-cart-plus fa-xl text-black hover:text-primary transition-all"></i>
-									</button>
-								</div>
-							</div>
-							<div className="details p-2">
-								<h2 className="text-lg font-bold" aria-label={product.title}>
-									{product.title}
-								</h2>
-								<div className="price py-1 pr-3 flex items-center justify-between">
-									<p className="text-black font-light text-[16px] flex items-center gap-2 leading-none">
-										EGP{" "}
-										<span className="font-bold text-[20px]">
-											{product.priceAfterDiscount}
-										</span>
-										<del>{product.price}</del>
-									</p>
-									<p
-										className="percent text-[#1BB910] text-[16px] font-bold"
-										aria-label={`Discount: ${product.discount}`}
-									>
-										{handleSalePercentage(product.price, product.priceAfterDiscount)} OFF
-									</p>
-								</div>
-								<p className="free-delivery" aria-label="Free Delivery">
-									<i className="fa-solid fa-truck fa-md mr-2"></i> Free
-									Delivery
-								</p>
-							</div>
 							</Link>
 						))}
 					</div>

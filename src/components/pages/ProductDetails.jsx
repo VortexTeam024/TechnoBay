@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 const ProductDetails = () => {
 	const { products, fetchOneProduct } = useContext(ProductContext);
 	const { id } = useParams();
-	const [laptops, setLaptops] = useState([]);
+	const [more, setMore] = useState([]);
 	const [selectedProduct, setSelectedProduct] = useState(null);
 	const [count, setCount] = useState(0);
 	const [loading, setLoading] = useState(true);
@@ -21,13 +21,8 @@ const ProductDetails = () => {
 		);
 	};
 
+	console.log(more)
 	useEffect(() => {
-		if (Array.isArray(products)) {
-			const filteredLaptops = products
-				.filter((product) => product.category.title === "Laptops")
-				.slice(0, 4);
-			setLaptops(filteredLaptops);
-		}
 		const loadProduct = async () => {
 			setLoading(true);
 			try {
@@ -42,9 +37,17 @@ const ProductDetails = () => {
 			}
 			setLoading(false);
 		};
-
+		const handleFetchMoreLikeThis = async () => {
+			if (Array.isArray(products)) {
+				const filteredLaptops = await products
+					.filter((product) => product.category.title === selectedProduct.category.title)
+					.slice(0, 4);
+				await setMore(filteredLaptops);
+			}
+		}
+		handleFetchMoreLikeThis();
 		loadProduct();
-	}, [id]); // Add `id` as a dependency to reload if `id` changes.
+	}, [id, products]); // Add `id` as a dependency to reload if `id` changes.
 	const handleSalePercentage = (originalPrice, discountedPrice) => {
 		if (originalPrice <= 0 || discountedPrice < 0) {
 			return "Invalid prices";
@@ -211,7 +214,7 @@ const ProductDetails = () => {
 						More From Laptops:
 					</h2>
 					<div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
-						{laptops.map((product) => (
+						{more.map((product) => (
 							<Link
 								key={product.id}
 								to={`/product/${product.id}`}

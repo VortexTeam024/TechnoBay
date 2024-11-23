@@ -52,6 +52,7 @@ const Login = () => {
 			} else {
 				const result = await response.json();
 				localStorage.setItem("username", result.data.username);
+				localStorage.setItem("token", result.token);
 				toast.success("Login successful!");
 				navigate("/");
 			}

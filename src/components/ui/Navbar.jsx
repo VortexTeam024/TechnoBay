@@ -7,12 +7,24 @@ const Navbar = () => {
 	const [username, setUsername] = useState(null);
 	const [searchQuery, setSearchQuery] = useState(""); // State for the search query
 	const { fetchSearchedData, products } = useContext(ProductContext); // Get the list of products and the fetch function
+	const [categories, setCategories] = useState([]);
 	const navigate = useNavigate(); // For navigation
-
+	
 	useEffect(() => {
 		const storedUsername = localStorage.getItem("username");
 		setUsername(storedUsername);
+		handleFetchCategories();
 	}, []);
+
+	const handleFetchCategories = async () => {
+		try {
+			const response = await fetch(`${import.meta.env.VITE_GET_ALL_CATEGORIES_API_URL}?limit=8`);
+			const result = await response.json();
+			setCategories(result.data);
+		} catch(err) {
+			console.error(err);
+		}
+	}
 
 	const handleLogout = () => {
 		localStorage.removeItem("username");
@@ -98,11 +110,9 @@ const Navbar = () => {
 			</nav>
 			<nav className="bottom-nav w-screen h-fit p-2 lg:p-0 lg:h-[50px] bg-[#ddd]">
 				<div className="container relative h-full flex gap-[20px] px-5 lg:px-0 lg:justify-center items-center">
-					{[
-						"Laptop", "Mobile", "Television", "Smart Watch", "Tablet", "Earphone", "Camera", "Accessory"
-					].map((category, index) => (
-						<Link key={index} to={`/${category.toLowerCase().replace(" ", "-")}`} className="text-black hover:text-primary font-semibold text-lg hidden lg:flex" aria-label={`View ${category}`}>
-							{category}
+					{categories.map((category) => (
+						<Link key={category._id} to={`/${category.title.toLowerCase().replace(" ", "-")}`} className="text-black hover:text-primary font-semibold text-lg hidden lg:flex" aria-label={`View ${category}`}>
+							{category.title}
 						</Link>
 					))}
 					<button onClick={() => setIsOpen(!isOpen)} className="text-primary text-lg font-bold block lg:hidden">
@@ -110,11 +120,9 @@ const Navbar = () => {
 					</button>
 				</div>
 				<div className={`mobile-nav container flex-col flex lg:hidden w-screen fixed top-[114px] px-7 py-5 bg-primary z-50 left-0 h-fit ${isOpen ? "flex" : "hidden"} gap-4`}>
-					{[
-						"Laptop", "Mobile", "Television", "Smart Watch", "Tablet", "Earphone", "Camera", "Accessory"
-					].map((category, index) => (
-						<Link key={index} to={`/${category.toLowerCase().replace(" ", "-")}`} className="text-white font-semibold text-lg" aria-label={`View ${category}`}>
-							{category}
+					{categories.map((category) => (
+						<Link key={category._id} to={`/${category.title.toLowerCase().replace(" ", "-")}`} className="text-white font-semibold text-lg" aria-label={`View ${category}`}>
+							{category.title}
 						</Link>
 					))}
 					<div className="links flex flex-col gap-4 mt-4">
