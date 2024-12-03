@@ -1,12 +1,9 @@
-import Navbar from "../ui/Navbar"
-import Footer from "../ui/Footer"
 import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { ProductContext } from "../contexts/Products.context";
 
 const Wishlist = () => {
 	const { wishlist, removeFromWishlist } = useContext(ProductContext);
-	console.log(wishlist);
 	const handleSalePercentage = (originalPrice, discountedPrice) => {
 		if (originalPrice <= 0 || discountedPrice < 0) {
 			return "Invalid prices";
@@ -17,7 +14,6 @@ const Wishlist = () => {
 	};
   return (
     <>
-      <Navbar />
       <main className="mt-[145px] lg:mt-[140px]">
         <h1 className="text-5xl font-bold italic border-b-[3px] border-black pb-2 mx-auto my-12 w-fit">Wishlist</h1>
         <div className="container">
@@ -85,7 +81,6 @@ const Wishlist = () => {
 					</div>
         </div>
       </main>
-      <Footer />
     </>
   )
 }

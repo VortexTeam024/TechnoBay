@@ -1,6 +1,4 @@
 import { useContext, useEffect, useState } from "react";
-import Navbar from "../ui/Navbar";
-import Footer from "../ui/Footer";
 import { useParams } from "react-router";
 import { ProductContext } from "../contexts/Products.context";
 import { Link } from "react-router-dom";
@@ -8,16 +6,17 @@ import { Link } from "react-router-dom";
 const CategoryDetails = () => {
 	const { products, wishlist, addToWishlist, removeFromWishlist } = useContext(ProductContext);
   const [selectedProductsCategory, setSelectedProductsCategory] = useState([]);
-  const [brandFilter, setBrandFilter] = useState(""); // فلتر العلامة التجارية
-  const [priceRange, setPriceRange] = useState({ from: 0, to: Infinity }); // فلتر السعر
+  const [brandFilter, setBrandFilter] = useState("");
+  const [priceRange, setPriceRange] = useState({ from: 0, to: Infinity });
   const { category } = useParams();
 
   useEffect(() => {
     const fetchCategory = async () => {
       if (Array.isArray(products)) {
         let filteredProducts = products.filter(
-          (product) => product.category.title === category.charAt(0).toUpperCase() + category.slice(1)
+          (product) => product.category.title === category.replace("-", " ").toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase())
         );
+        
         if (brandFilter) {
           filteredProducts = filteredProducts.filter((product) =>
             product.brand.toLowerCase().includes(brandFilter)
@@ -65,7 +64,6 @@ const CategoryDetails = () => {
 
   return (
     <>
-      <Navbar />
       <main className="mt-[100px] lg:mt-[120px]">
         <div className="header py-6 mx-auto text-center">
           <h1 className="text-6xl font-bold text-black mb-3 italic capitalize">
@@ -138,7 +136,7 @@ const CategoryDetails = () => {
 									className="product bg-white p-2 rounded-[20px] shadow-2xl relative z-40"
 								>
 									<div
-										className="image bg-[#F6F6F6] p-4 w-full h-[254px] justify-center flex rounded-[20px] relative"
+										className="image bg-[#F6F6F6] p-4 w-full h-[254px] justify-center flex items-center rounded-[20px] relative"
 										aria-label={`${product.title} Image`}
 									>
 										<Link to={`/product/${product.id}`}>
@@ -214,7 +212,6 @@ const CategoryDetails = () => {
           </div>
         </section>
       </main>
-      <Footer />
     </>
   );
 };

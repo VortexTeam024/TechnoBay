@@ -12,7 +12,6 @@ const NewPassword = () => {
 		const storedEmail = localStorage.getItem("resetEmail");
 		setEmail(storedEmail);
 	}, []);
-	console.log(email);
 	const [password, setPassword] = useState("");
 	const [confirmPassword, setConfirmPassword] = useState("");
 

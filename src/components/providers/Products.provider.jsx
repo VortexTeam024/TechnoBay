@@ -2,160 +2,227 @@ import { useEffect, useState } from "react";
 import { ProductContext } from "../contexts/Products.context";
 import PropTypes from "prop-types";
 
-export const ProductProvider = ({ children }) => {
-	const [products, setProducts] = useState([]);
-	const [wishlist, setWishlist] = useState([]); // Wishlist State
-	const authToken = localStorage.getItem("token"); // Fetch the token from localStorage
+const authToken = localStorage.getItem("token");
 
-	// Fetch all products
-	useEffect(() => {
-		// Fetch wishlist
-		const fetchWishlist = async () => {
-			try {
-				const url = `${import.meta.env.VITE_WISHLIST_API_URL}`;
-				const response = await fetch(url, {
-					headers: {
-						Authorization: `Bearer ${authToken}`, // Add Bearer Token
-					},
-				});
-				if (response.ok) {
-					const result = await response.json();
-					if (Array.isArray(result)) {
-						setWishlist(result);
-					} else if (result.data) {
-						setWishlist(result.data);
-					}
-				} else {
-					console.error("Failed to fetch wishlist from the database.");
-				}
-			} catch (error) {
-				console.error(error);
-			}
-		};
-		fetchWishlist();
-		fetchData();
-	}, [authToken, setWishlist]);
+const ProductProvider = ({ children }) => {
+  const [products, setProducts] = useState([]);
+  const [wishlist, setWishlist] = useState([]);
+  const [cart, setCart] = useState([]);
 
-	const fetchData = async () => {
-		try {
-			const url = `${import.meta.env.VITE_GET_ALL_PRODUCTS_API_URL}?limit=254`;
-			const response = await fetch(url);
-			const result = await response.json();
-			if (Array.isArray(result)) {
-				setProducts(result);
-			} else if (result.data) {
-				setProducts(result.data);
-			}
-		} catch (error) {
-			console.error(error);
-		}
-	};
+  // Fetch data from API and set it to state
+  const fetchDataFromApi = async (url, setter) => {
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+					"Content-Type": "application/json"
+        },
+      });
+      const result = await response.json();
+      if (response.ok) {
+        if (Array.isArray(result)) {
+          setter(result);
+        } else if (result.data) {
+          setter(result.data);
+        }
+      }
+      if (response.ok && url === import.meta.env.VITE_CART_API_URL) {
+        setter(result);
+      }
+    } catch (error) {
+      console.error("Error fetching data from API:", error);
+    }
+  };
 
-	// Fetch searched product
-	const fetchSearchedData = async (searchedProduct) => {
-		try {
-			const url = `${
-				import.meta.env.VITE_GET_ALL_PRODUCTS_API_URL
-			}?limit=1&keyword=${searchedProduct}`;
-			const response = await fetch(url);
-			const result = await response.json();
-			if (Array.isArray(result)) {
-				setProducts(result);
-			} else if (result.data) {
-				setProducts(result.data);
-			}
-		} catch (error) {
-			console.error(error);
-		}
-	};
+  // Fetch one product by ID
+  const fetchOneProduct = async (productId) => {
+    const url = `${import.meta.env.VITE_GET_ALL_PRODUCTS_API_URL}/${productId}`;
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+					"Content-Type": "application/json"
+        },
+      });
+      const result = await response.json();
+      if (response.ok) {
+        return result;
+      }
+    } catch (error) {
+      console.error("Error fetching product:", error);
+    }
+    return null;
+  };
 
-	// Fetch one product by ID
-	const fetchOneProduct = async (id) => {
-		try {
-			const url = `${import.meta.env.VITE_GET_ALL_PRODUCTS_API_URL}/${id}`;
-			const response = await fetch(url);
-			const result = await response.json();
-			if (Array.isArray(result)) {
-				return result;
-			} else if (result.data) {
-				return result.data;
-			}
-		} catch (err) {
-			console.error(err);
-		}
-	};
+  // Add a product to the wishlist
+  const addToWishlist = async (product) => {
+    const url = `${import.meta.env.VITE_WISHLIST_API_URL}`;
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
+        body: JSON.stringify({ productId: product.id }),
+      });
+      if (response.ok) {
+        setWishlist((prevWishlist) => {
+          if (!prevWishlist.some((item) => item.id === product.id)) {
+            return [...prevWishlist, product];
+          }
+          return prevWishlist;
+        });
+      }
+    } catch (error) {
+      console.error("Error adding to wishlist:", error);
+    }
+  };
 
-	// Add product to Wishlist
-	const addToWishlist = async (product) => {
-		try {
-			const url = `${import.meta.env.VITE_WISHLIST_API_URL}`;
-			const response = await fetch(url, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${authToken}`, // Add Bearer Token
-				},
-				body: JSON.stringify({ productId: product.id }),
-			});
+  // Remove a product from the wishlist
+  const removeFromWishlist = async (id) => {
+    const url = `${import.meta.env.VITE_WISHLIST_API_URL}/${id}`;
+    try {
+      const response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
+        body: JSON.stringify({ productId: id }),
+      });
+      if (response.ok) {
+        setWishlist((prevWishlist) =>
+          prevWishlist.filter((item) => item.id !== id)
+        );
+      }
+    } catch (error) {
+      console.error("Error removing from wishlist:", error);
+    }
+  };
 
-			if (response.ok) {
-				setWishlist((prevWishlist) => {
-					if (!prevWishlist.some((item) => item.id === product.id)) {
-						return [...prevWishlist, product];
-					}
-					return prevWishlist; // Prevent duplicates
-				});
-			} else {
-				console.error("Failed to add product to wishlist in the database.");
-			}
-		} catch (error) {
-			console.error(error);
-		}
-	};
+  const addToCart = async (product) => {
+    const url = `${import.meta.env.VITE_CART_API_URL}`;
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ productId: product.id }),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`Failed to add product to cart. Status: ${response.status}`);
+      }
+  
+      setCart((prevCart) => {
+        if (!Array.isArray(prevCart)) prevCart = [];
+        if (!prevCart.some((item) => item.id === product.id)) {
+          return [...prevCart, { ...product, quantity: 1 }];
+        }
+        return prevCart;
+      });
+    } catch (error) {
+      console.error("Error adding to cart:", error.message);
+    }
+  };
 
-	// Remove product from Wishlist
-	const removeFromWishlist = async (id) => {
-		try {
-			const url = `${import.meta.env.VITE_WISHLIST_API_URL}/${id}`;
-			const response = await fetch(url, {
-				method: "DELETE",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${authToken}`, // Add Bearer Token
-				},
-				body: JSON.stringify({ productId: id }),
-			});
+  // Remove a product from the cart
+  const removeFromCart = async (id) => {
+    const url = `${import.meta.env.VITE_CART_API_URL}/${id}`;
+    try {
+      const response = await fetch(url, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+        },
+      });
+      if (response.ok) {
+        setCart((prevCart) => ({
+          ...prevCart,
+          data: {
+            ...prevCart.data,
+            cartItems: prevCart.data.cartItems.filter((item) => item.id !== id),
+          },
+        }));
+      }
+    } catch (error) {
+      console.error("Error removing from cart:", error);
+    }
+  };
 
-			if (response.ok) {
-				setWishlist((prevWishlist) =>
-					prevWishlist.filter((item) => item.id !== id)
-				);
-			} else {
-				console.error(
-					"Failed to remove product from wishlist in the database."
-				);
-			}
-		} catch (error) {
-			console.error(error);
-		}
-	};
+  const updateCart = async (id, quantity) => {
+    const url = `${import.meta.env.VITE_CART_API_URL}/${id}`;
+    try {
+      const response = await fetch(url, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${authToken}`,
+        },
+        body: JSON.stringify({ quantity }),
+      });
+      if (response.ok) {
+        setCart((prevCart) => {
+          if (prevCart.data) {
+            const updatedCartItems = prevCart.data.cartItems.map((item) =>
+              item.id === id ? { ...item, quantity } : item
+            );
+            setProducts(updatedCartItems); // تحديث المنتجات هنا مباشرة
+            return {
+              ...prevCart,
+              data: {
+                ...prevCart.data,
+                cartItems: updatedCartItems,
+              },
+            };
+          } else {
+            return prevCart;
+          }
+        });
+      }
+    } catch (error) {
+      console.error("Error updating cart:", error);
+    }
+  };
 
-	return (
-		<ProductContext.Provider
-			value={{
-				products,
-				wishlist,
-				fetchSearchedData,
-				fetchOneProduct,
-				addToWishlist,
-				removeFromWishlist,
-			}}
-		>
-			{children}
-		</ProductContext.Provider>
-	);
+  // Fetch initial data for products, wishlist, and cart
+  useEffect(() => {
+    const initializeData = async () => {
+      await fetchDataFromApi(import.meta.env.VITE_GET_ALL_PRODUCTS_API_URL + "?limit=254", setProducts);
+      await fetchDataFromApi(import.meta.env.VITE_WISHLIST_API_URL, setWishlist);
+      await fetchDataFromApi(import.meta.env.VITE_CART_API_URL, setCart);
+    };
+    initializeData();
+  }, []);
+
+  return (
+    <ProductContext.Provider
+      value={{
+        products,
+        wishlist,
+        cart,
+        setCart,
+        fetchDataFromApi,
+        fetchOneProduct,
+        addToWishlist,
+        removeFromWishlist,
+        addToCart,
+        removeFromCart,
+        updateCart,
+      }}
+    >
+      {children}
+    </ProductContext.Provider>
+  );
 };
 
 ProductProvider.propTypes = {
-	children: PropTypes.node.isRequired,
+  children: PropTypes.node.isRequired,
 };
+
+export default ProductProvider;

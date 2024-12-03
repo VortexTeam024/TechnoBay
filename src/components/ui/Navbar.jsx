@@ -5,16 +5,10 @@ import { ProductContext } from "../contexts/Products.context";
 const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [username, setUsername] = useState(null);
-	const [searchQuery, setSearchQuery] = useState(""); // State for the search query
-	const { fetchSearchedData, products } = useContext(ProductContext); // Get the list of products and the fetch function
+	const [searchQuery, setSearchQuery] = useState("");
+	const { fetchSearchedData, products, cart } = useContext(ProductContext);
 	const [categories, setCategories] = useState([]);
-	const navigate = useNavigate(); // For navigation
-	
-	useEffect(() => {
-		const storedUsername = localStorage.getItem("username");
-		setUsername(storedUsername);
-		handleFetchCategories();
-	}, []);
+	const navigate = useNavigate();
 
 	const handleFetchCategories = async () => {
 		try {
@@ -37,23 +31,25 @@ const Navbar = () => {
 		fetchSearchedData(event.target.value); // Fetch the data based on the query
 	};
 
-	// When user presses Enter, navigate to the product page if a matching product is found
 	const handleSearchSubmit = (event) => {
 		if (event.key === "Enter") {
-			// Find a matching product
 			const matchingProduct = products.find(product =>
-				product.title.toLowerCase().includes(searchQuery.toLowerCase()) // Adjust matching logic as needed
+				product.title.toLowerCase().includes(searchQuery.toLowerCase())
 			);
 
 			if (matchingProduct) {
-				// Navigate to the product details page if a match is found
 				navigate(`/product/${matchingProduct.id}`);
 			} else {
-				// Optionally handle case when no product matches
 				alert("Product not found");
 			}
 		}
 	};
+
+	useEffect(() => {
+		const storedUsername = localStorage.getItem("username");
+		setUsername(storedUsername);
+		handleFetchCategories();
+	}, [cart]);
 
 	return (
 		<header className="h-fit lg:h-[120px] w-screen fixed top-0 left-0 z-50">
@@ -83,9 +79,6 @@ const Navbar = () => {
 								Cart
 								<div className="cart relative">
 									<i className="fa-solid fa-cart-shopping fa-lg"></i>
-									<span className="absolute -right-1 top-[-6.25px] text-[10px] text-primary bg-white leading-[7px] p-1 rounded-full">
-										0
-									</span>
 								</div>
 							</Link>
 						</div>
@@ -135,7 +128,7 @@ const Navbar = () => {
 							<div className="cart relative">
 								<i className="fa-solid fa-cart-shopping fa-lg"></i>
 								<span className="absolute -right-1 top-[-6.25px] text-[10px] text-primary bg-white leading-[7px] p-1 rounded-full">
-									0
+									{ cart?.numOfCartItems || 0 }
 								</span>
 							</div>
 						</Link>

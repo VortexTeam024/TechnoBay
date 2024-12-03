@@ -1,35 +1,40 @@
-import Navbar from "../ui/Navbar";
-import Footer from "../ui/Footer";
 import { useState, useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import { ProductContext } from "../contexts/Products.context";
 import { Link } from "react-router-dom";
 
 const ProductDetails = () => {
-	const { products, fetchOneProduct } = useContext(ProductContext);
+	const { products, fetchOneProduct, wishlist, cart, addToCart, removeFromCart, addToWishlist, removeFromWishlist } = useContext(ProductContext);
 	const { id } = useParams();
 	const [more, setMore] = useState([]);
 	const [selectedProduct, setSelectedProduct] = useState(null);
-	const [count, setCount] = useState(0);
 	const [loading, setLoading] = useState(true);
-	const [favorites, setFavorites] = useState([]);
-	const toggleFavorite = (productId) => {
-		setFavorites((prevFavorites) =>
-			prevFavorites.includes(productId)
-				? prevFavorites.filter((id) => id !== productId)
-				: [...prevFavorites, productId]
-		);
+
+	const toggleFavorite = (product) => {
+		if (wishlist.some((item) => item.id === product.id)) {
+			removeFromWishlist(product.id);
+		} else {
+			addToWishlist(product);
+		}
 	};
 
-	console.log(more)
+	const isInCart = (id) => Array.isArray(cart) && cart.some((item) => item.id === id);
+
+	const toggleCart = (product) => {
+		if (isInCart(product._id)) {
+			removeFromCart(product._id);
+		} else {
+			addToCart(product);
+		}
+	};
+
 	useEffect(() => {
 		const loadProduct = async () => {
 			setLoading(true);
 			try {
 				const product = await fetchOneProduct(id);
 				if (product) {
-					console.log(product);
-					setSelectedProduct(product);
+					setSelectedProduct(product.data);
 				}
 			} catch (error) {
 				console.error("Error fetching product:", error);
@@ -47,7 +52,8 @@ const ProductDetails = () => {
 		}
 		handleFetchMoreLikeThis();
 		loadProduct();
-	}, [id, products]); // Add `id` as a dependency to reload if `id` changes.
+	}, [id, products]);
+
 	const handleSalePercentage = (originalPrice, discountedPrice) => {
 		if (originalPrice <= 0 || discountedPrice < 0) {
 			return "Invalid prices";
@@ -60,76 +66,53 @@ const ProductDetails = () => {
 	if (loading) {
 		return (
 			<>
-				<Navbar />
 				<main className="bg-[#f1f1f1] mt-[100px] lg:mt-[140px]">
 					<section className="container p-4 my-6 text-center">
 						<p>Loading product details...</p>
 					</section>
 				</main>
-				<Footer />
 			</>
 		);
 	}
 
 	return (
 		<>
-			<Navbar />
 			<main className="bg-[#f1f1f1] mt-[100px] lg:mt-[140px]">
 				<section className="main-product container p-4 my-6 bg-white grid grid-cols-1 lg:grid-cols-2 gap-6 items-center rounded">
 					<div className="col">
-						{selectedProduct.images && selectedProduct.images[0] && (
-							<img
-								src={"/assets/ProductDetails.png"}
-								alt={selectedProduct.name}
-								className="w-full h-auto"
-							/>
-						)}
+						<img
+							src={selectedProduct.images?.[0]?.url || "/placeholder.png"}
+							alt={selectedProduct.name}
+							className="w-full h-auto"
+						/>
 						<div className="tools mx-4 flex flex-wrap gap-4 items-center">
-							<div className="bg-[#f1f1f1] px-4 py-2 w-fit flex items-center gap-6 rounded-lg">
-								<button
-									onClick={() => {
-										if (count < 9) setCount(count + 1);
-									}}
-									className="font-semibold text-black text-2xl"
-								>
-									+
-								</button>
-								<span className="font-bold text-black text-2xl block w-[15px]">
-									{count}
-								</span>
-								<button
-									onClick={() => {
-										if (count > 0) setCount(count - 1);
-									}}
-									className="font-bold text-black text-2xl"
-								>
-									-
-								</button>
-							</div>
-							<button className="btn-primary md:text-xl text-lg flex-1">
+							<button onClick={(e) => {e.preventDefault(); addToCart(selectedProduct);}} className="btn-primary md:text-xl text-lg flex-1">
 								Add To Cart
 							</button>
 							<button
-								onClick={() => toggleFavorite(selectedProduct.id)}
-                aria-label={`${
-                  favorites.includes(selectedProduct.id)
-                    ? "Unfavorite"
-                    : "Favorite"
-                } ${selectedProduct.name}`}
+								onClick={(e) => {
+									e.preventDefault();
+									toggleFavorite(selectedProduct);
+								}}
+								aria-label={`${
+									wishlist.some((item) => item.id === selectedProduct.id)
+										? "Unfavorite"
+										: "Favorite"
+								} ${selectedProduct.title}`}
 								className="bg-[#f1f1f1] px-4 py-3 h-full rounded-lg w-fit"
 							>
 								<i
 									className={`fa-solid fa-heart fa-xl hover:text-[#ff0000] transition-all ${
-                    favorites.includes(selectedProduct.id)
-                      ? "text-[#ff0000]"
-                      : "text-[#ccc]"
-                  }`}
+										wishlist.some((item) => item.id === selectedProduct.id)
+											? "text-[#ff0000]"
+											: "text-[#ccc]"
+									}`}
 								></i>
 							</button>
 						</div>
 					</div>
 					<div className="col">
-						<h2 className="text-5xl font-bold">{selectedProduct.title}</h2>
+						<h2 className="md:text-5xl text-3xl font-bold">{selectedProduct.title}</h2>
 						<p className="text-lg font-semibold text-[#717171] my-2">
 							{selectedProduct.description}
 						</p>
@@ -211,7 +194,9 @@ const ProductDetails = () => {
 				</section>
 				<section className="container p-4 my-6 bg-white rounded">
 					<h2 className="text-3xl font-bold mb-3 pb-2 w-full border-b-[3px] border-b-black">
-						More From Laptops:
+						More From {
+							selectedProduct.category.title.replace("-", " ").toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase())
+						}:
 					</h2>
 					<div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
 						{more.map((product) => (
@@ -224,26 +209,45 @@ const ProductDetails = () => {
 									className="image bg-[#F6F6F6] p-4 w-full h-[254px] justify-center flex rounded-[20px] relative"
 									aria-label={`${product.title} Image`}
 								>
-									<img src={product.images[0].url} alt={product.name} />
+									<img src={product.images?.[0]?.url || "/placeholder.png"} alt={product.name} />
 									<div className="tools absolute flex flex-col justify-between top-5 right-2 h-[90%]">
 										<button
-											onClick={() => toggleFavorite(product.id)}
+											onClick={(e) => {
+												e.preventDefault();
+												toggleFavorite(product);
+											}}
 											aria-label={`${
-												favorites.includes(product.id)
+												wishlist.some((item) => item.id === product.id)
 													? "Unfavorite"
 													: "Favorite"
-											} ${product.name}`}
+											} ${product.title}`}
 										>
 											<i
-												className={`fa-solid fa-heart fa-xl hover:text-[#ff0000] transition-all ${
-													favorites.includes(product.id)
+												className={`fa-solid fa-heart fa-xl hover:text-[#ff0000] transition-all  ${
+													wishlist.some((item) => item.id === product.id)
 														? "text-[#ff0000]"
 														: "text-[#ccc]"
 												}`}
 											></i>
 										</button>
-										<button aria-label={`Add ${product.title} to Cart`}>
-											<i className="fa-solid fa-cart-plus fa-xl text-black hover:text-primary transition-all"></i>
+										<button
+											onClick={(e) => {
+												e.preventDefault();
+												toggleCart(product);
+											}}
+											aria-label={`${
+												isInCart(product.id)
+													? "Remove from Cart"
+													: "Add to Cart"
+											} ${product.title}`}
+										>
+											<i
+												className={`fa-solid ${
+													isInCart(product.id)
+														? "fa-cart-arrow-down text-primary"
+														: "fa-cart-plus text-black"
+												} fa-xl hover:text-primary transition-all`}
+											></i>
 										</button>
 									</div>
 								</div>
@@ -266,7 +270,7 @@ const ProductDetails = () => {
 											{handleSalePercentage(
 												product.price,
 												product.priceAfterDiscount
-											)}{" "}
+											)}%{" "}
 											OFF
 										</p>
 									</div>
@@ -280,7 +284,6 @@ const ProductDetails = () => {
 					</div>
 				</section>
 			</main>
-			<Footer />
 		</>
 	);
 };

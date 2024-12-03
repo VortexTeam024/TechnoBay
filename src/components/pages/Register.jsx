@@ -38,8 +38,6 @@ const Register = () => {
 			passwordConfirm: formData.passwordConfirm,
 		};
 
-		console.log("Data being sent:", requestData);
-
 		try {
 			const response = await fetch(
 				apiUrl,
