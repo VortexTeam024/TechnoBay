@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { ProductContext } from "../contexts/Products.context";
 
 const Wishlist = () => {
-	const { wishlist, removeFromWishlist } = useContext(ProductContext);
+	const { wishlist, setWishlist, fetchDataFromApi, removeFromWishlist, addToCart } = useContext(ProductContext);
 	const handleSalePercentage = (originalPrice, discountedPrice) => {
 		if (originalPrice <= 0 || discountedPrice < 0) {
 			return "Invalid prices";
@@ -12,6 +12,12 @@ const Wishlist = () => {
 			((originalPrice - discountedPrice) / originalPrice) * 100;
 		return salePercentage.toFixed(2);
 	};
+	useEffect(() => {
+		const FetchDataWishlist = async () => {
+			await fetchDataFromApi(import.meta.env.VITE_WISHLIST_API_URL, setWishlist);
+		}
+		FetchDataWishlist();
+	}, [])
   return (
     <>
       <main className="mt-[145px] lg:mt-[140px]">
@@ -69,7 +75,7 @@ const Wishlist = () => {
 										</p>
 									</Link>
 									<div className="addtocart flex items-center gap-4">
-										<button className="btn-primary text-[24px] flex-1">
+										<button onClick={(e) => {e.preventDefault(); addToCart(product)}} className="btn-primary text-[24px] flex-1">
 											Add to Cart
 										</button>
 										<button className="bg-[#f1f1f1] px-4 py-4 h-full rounded-lg w-fit" onClick={() => removeFromWishlist(product._id)}>

@@ -12,6 +12,7 @@ const Cart = () => {
   } = useContext(ProductContext);
 
   const [enrichedCartItems, setEnrichedCartItems] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   // Fetch details for each product
   const enrichCartItems = async () => {
@@ -30,7 +31,14 @@ const Cart = () => {
       console.error("Error enriching cart items:", error);
     }
   };
-  
+
+  useEffect(() => {
+    const FetchDataCart = async () => {
+      await fetchDataFromApi(import.meta.env.VITE_CART_API_URL, setCart);
+      setLoading(false);
+    }
+    FetchDataCart();
+  }, [])
 
   useEffect(() => {
     if (cart?.data?.cartItems) {
@@ -94,6 +102,10 @@ const Cart = () => {
 	};
 
   console.log(enrichedCartItems);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <main className="mt-[145px] lg:mt-[140px]">

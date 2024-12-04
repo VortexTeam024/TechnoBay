@@ -195,7 +195,7 @@ const CategoryDetails = () => {
 												{handleSalePercentage(
 													product.price,
 													product.priceAfterDiscount
-												)}{" "}
+												)}%{" "}
 												OFF
 											</p>
 										</div>

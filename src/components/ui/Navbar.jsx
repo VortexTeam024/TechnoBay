@@ -22,6 +22,7 @@ const Navbar = () => {
 
 	const handleLogout = () => {
 		localStorage.removeItem("username");
+		localStorage.removeItem("token");
 		setUsername(null);
 		window.location.reload();
 	};
@@ -127,9 +128,6 @@ const Navbar = () => {
 							Cart
 							<div className="cart relative">
 								<i className="fa-solid fa-cart-shopping fa-lg"></i>
-								<span className="absolute -right-1 top-[-6.25px] text-[10px] text-primary bg-white leading-[7px] p-1 rounded-full">
-									{ cart?.numOfCartItems || 0 }
-								</span>
 							</div>
 						</Link>
 					</div>

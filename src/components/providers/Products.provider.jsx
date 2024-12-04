@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { ProductContext } from "../contexts/Products.context";
 import PropTypes from "prop-types";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const authToken = localStorage.getItem("token");
 
@@ -58,100 +60,118 @@ const ProductProvider = ({ children }) => {
 
   // Add a product to the wishlist
   const addToWishlist = async (product) => {
-    const url = `${import.meta.env.VITE_WISHLIST_API_URL}`;
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authToken}`,
-        },
-        body: JSON.stringify({ productId: product.id }),
-      });
-      if (response.ok) {
-        setWishlist((prevWishlist) => {
-          if (!prevWishlist.some((item) => item.id === product.id)) {
-            return [...prevWishlist, product];
-          }
-          return prevWishlist;
+    if (authToken) {
+      const url = `${import.meta.env.VITE_WISHLIST_API_URL}`;
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authToken}`,
+          },
+          body: JSON.stringify({ productId: product.id }),
         });
+        if (response.ok) {
+          setWishlist((prevWishlist) => {
+            if (!prevWishlist.some((item) => item.id === product.id)) {
+              return [...prevWishlist, product];
+            }
+            return prevWishlist;
+          });
+        }
+      } catch (error) {
+        console.error("Error adding to wishlist:", error);
       }
-    } catch (error) {
-      console.error("Error adding to wishlist:", error);
+    } else {
+      toast.error("You are not login !");
     }
   };
-
+  
   // Remove a product from the wishlist
   const removeFromWishlist = async (id) => {
-    const url = `${import.meta.env.VITE_WISHLIST_API_URL}/${id}`;
-    try {
-      const response = await fetch(url, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${authToken}`,
-        },
-        body: JSON.stringify({ productId: id }),
-      });
-      if (response.ok) {
-        setWishlist((prevWishlist) =>
-          prevWishlist.filter((item) => item.id !== id)
-        );
+    if (authToken) {
+      const url = `${import.meta.env.VITE_WISHLIST_API_URL}/${id}`;
+      try {
+        const response = await fetch(url, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${authToken}`,
+          },
+          body: JSON.stringify({ productId: id }),
+        });
+        if (response.ok) {
+          setWishlist((prevWishlist) =>
+            prevWishlist.filter((item) => item.id !== id)
+          );
+        }
+      } catch (error) {
+        console.error("Error removing from wishlist:", error);
       }
-    } catch (error) {
-      console.error("Error removing from wishlist:", error);
+    } else {
+      toast.error("You are not login !");
     }
   };
 
   const addToCart = async (product) => {
-    const url = `${import.meta.env.VITE_CART_API_URL}`;
-    try {
-      const response = await fetch(url, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ productId: product.id }),
-      });
-  
-      if (!response.ok) {
-        throw new Error(`Failed to add product to cart. Status: ${response.status}`);
-      }
-  
-      setCart((prevCart) => {
-        if (!Array.isArray(prevCart)) prevCart = [];
-        if (!prevCart.some((item) => item.id === product.id)) {
-          return [...prevCart, { ...product, quantity: 1 }];
+    if (authToken) {
+
+      const url = `${import.meta.env.VITE_CART_API_URL}`;
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ productId: product.id }),
+        });
+        
+        if (!response.ok) {
+          throw new Error(`Failed to add product to cart. Status: ${response.status}`);
         }
-        return prevCart;
-      });
-    } catch (error) {
-      console.error("Error adding to cart:", error.message);
+        
+        setCart((prevCart) => {
+          if (!Array.isArray(prevCart)) prevCart = [];
+          if (!prevCart.some((item) => item.id === product.id)) {
+            return [...prevCart, { ...product, quantity: 1 }];
+          }
+          return prevCart;
+        });
+      } catch (error) {
+        console.error("Error adding to cart:", error.message);
+      }
+    } else {
+      toast.error("You are not login !");
     }
   };
 
   // Remove a product from the cart
   const removeFromCart = async (id) => {
-    const url = `${import.meta.env.VITE_CART_API_URL}/${id}`;
-    try {
-      const response = await fetch(url, {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-        },
-      });
-      if (response.ok) {
-        setCart((prevCart) => ({
-          ...prevCart,
-          data: {
-            ...prevCart.data,
-            cartItems: prevCart.data.cartItems.filter((item) => item.id !== id),
+    if (authToken) {
+
+      const url = `${import.meta.env.VITE_CART_API_URL}/${id}`;
+      try {
+        const response = await fetch(url, {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${authToken}`,
           },
-        }));
+        });
+        if (response.ok) {
+          setCart((prevCart) => ({
+            ...prevCart,
+            data: {
+              ...prevCart.data,
+              cartItems: prevCart.data.cartItems.filter((item) => item.id !== id),
+            },
+          }));
+        }
+      } catch (error) {
+        console.error("Error removing from cart:", error);
       }
-    } catch (error) {
-      console.error("Error removing from cart:", error);
+    } else {
+      toast.error("You are not login !");
     }
   };
 
@@ -194,8 +214,6 @@ const ProductProvider = ({ children }) => {
   useEffect(() => {
     const initializeData = async () => {
       await fetchDataFromApi(import.meta.env.VITE_GET_ALL_PRODUCTS_API_URL + "?limit=254", setProducts);
-      await fetchDataFromApi(import.meta.env.VITE_WISHLIST_API_URL, setWishlist);
-      await fetchDataFromApi(import.meta.env.VITE_CART_API_URL, setCart);
     };
     initializeData();
   }, []);
@@ -217,6 +235,7 @@ const ProductProvider = ({ children }) => {
       }}
     >
       {children}
+      <ToastContainer />
     </ProductContext.Provider>
   );
 };
