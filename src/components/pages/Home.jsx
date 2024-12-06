@@ -157,32 +157,32 @@ const Home = () => {
 				</Swiper>
 			</section>
 			<section className="sales py-6">
-				<div className="container flex flex-wrap justify-center gap-5 md:justify-between items-center">
-					<div className="card w-[420px] h-[423px] border-[2px] px-5 rounded-xl border-[#aaa]">
+				<div className="md:container mx-auto w-[95%] grid xl:grid-cols-3 lg:grid-cols-2 grid-cols-1 gap-5 items-center place-items-center">
+					<div className="card md:w-[420px] md:h-[423px] h-fit md:py-0 pb-3 border-[2px] px-5 rounded-xl border-[#aaa]">
 						<h3 className="text-3xl font-bold text-primary py-6">Shop Now</h3>
-						<div className="card-body grid grid-cols-2 gap-[40px]">
-							<div className="bg-[#D1E7FB] w-[175px] rounded-[10px]">
+						<div className="card-body grid grid-cols-2 md:gap-[40px] gap-[20px]">
+							<div className="bg-[#D1E7FB] md:w-[175px] w-[150px] rounded-[10px]">
 								<img src="./assets/shopcard1.png" alt="" />
 								<div className="text p-1 px-2">
 									<h4 className="font-semibold text-[16px]">Top Rated</h4>
 									<p className="text-[12px]">Stay in trend</p>
 								</div>
 							</div>
-							<div className="bg-[#D1E7FB] w-[175px] rounded-[10px]">
+							<div className="bg-[#D1E7FB] md:w-[175px] w-[150px] rounded-[10px]">
 								<img src="./assets/shopcard2.png" alt="" />
 								<div className="text p-1 px-2">
 									<h4 className="font-semibold text-[16px]">New Arrivals</h4>
 									<p className="text-[12px]">Fresh takes you need</p>
 								</div>
 							</div>
-							<div className="bg-[#D1E7FB] w-[175px] rounded-[10px]">
+							<div className="bg-[#D1E7FB] md:w-[175px] w-[150px] rounded-[10px]">
 								<img src="./assets/shopcard3.png" alt="" />
 								<div className="text p-1 px-2">
 									<h4 className="font-semibold text-[16px]">Bestseller</h4>
 									<p className="text-[12px]">Fill your cart</p>
 								</div>
 							</div>
-							<div className="bg-[#D1E7FB] w-[175px] rounded-[10px]">
+							<div className="bg-[#D1E7FB] md:w-[175px] w-[150px] rounded-[10px]">
 								<img src="./assets/shopcard4.png" alt="" />
 								<div className="text p-1 px-2">
 									<h4 className="font-semibold text-[16px]">
@@ -193,13 +193,13 @@ const Home = () => {
 							</div>
 						</div>
 					</div>
-					<img src="./assets/super-sale.png" alt="" />
-					<div className="card w-[420px] h-[423px] border-[2px] px-5 rounded-xl border-[#aaa]">
+					<img src="./assets/super-sale.png" className="h-[423px] md:p-0 p-[15px]" alt="" />
+					<div className="card md:w-[420px] md:h-[423px] md:pb-0 pb-3 h-fit border-[2px] px-5 rounded-xl border-[#aaa]">
 						<h3 className="text-3xl font-bold text-primary py-6">
 							Mega Deals
 						</h3>
 						<div className="card-body grid grid-cols-2 gap-[10px]">
-							<div className="bg-[#D1E7FB] w-[175px] rounded-[10px]">
+							<div className="bg-[#D1E7FB] md:w-[175px] w-[150px] rounded-[10px]">
 								<div className="image flex justify-center">
 									<img src="./assets/salecard1.png" alt="" />
 								</div>
@@ -208,7 +208,7 @@ const Home = () => {
 									<h4 className="font-semibold text-[16px]">Get up to 40%</h4>
 								</div>
 							</div>
-							<div className="bg-[#D1E7FB] w-[175px] rounded-[10px]">
+							<div className="bg-[#D1E7FB] md:w-[175px] w-[150px] rounded-[10px]">
 								<div className="image flex justify-center py-2">
 									<img src="./assets/salecard2.png" alt="" />
 								</div>
@@ -217,7 +217,7 @@ const Home = () => {
 									<h4 className="font-semibold text-[16px]">Get up to 35%</h4>
 								</div>
 							</div>
-							<div className="bg-[#D1E7FB] w-[175px] rounded-[10px]">
+							<div className="bg-[#D1E7FB] md:w-[175px] w-[150px] rounded-[10px]">
 								<div className="image flex justify-center py-1">
 									<img src="./assets/salecard3.png" alt="" />
 								</div>
@@ -226,7 +226,7 @@ const Home = () => {
 									<h4 className="font-semibold text-[16px]">Get up to 35%</h4>
 								</div>
 							</div>
-							<div className="bg-[#D1E7FB] w-[175px] rounded-[10px]">
+							<div className="bg-[#D1E7FB] md:w-[175px] w-[150px] rounded-[10px]">
 								<div className="image flex justify-center py-4">
 									<img src="./assets/salecard4.png" alt="" />
 								</div>
@@ -630,8 +630,8 @@ const Home = () => {
 					))}
 				</div>
 			</section>
-			<section className="feedbacks my-6 container flex items-center flex-wrap gap-6">
-				<div className="p-2 md:w-[49%] w-full">
+			<section className="feedbacks my-6 container grid lg:grid-cols-2 grid-cols-1 gap-6">
+				<div className="p-2 w-full">
 					<div className="heading">
 						<h1 className="text-5xl font-bold">Feedback</h1>
 						<p className="text-[#A5A5A5] text-[16px] pt-2">
@@ -726,23 +726,23 @@ const Home = () => {
 						</div>
 					</div>
 				</div>
-				<form className="md:w-[49%] w-full flex flex-col items-center gap-3">
+				<form className="w-full flex flex-col items-center gap-3">
 					<h1 className="text-[40px] font-bold">Write Feedback</h1>
 					<input
 						type="text"
 						placeholder="Your Full Name ..."
-						className="px-5 py-3 rounded-[16px] bg-[#ddd] placeholder:text-black font-semibold w-[80%]"
+						className="px-5 py-3 rounded-[16px] bg-[#ddd] placeholder:text-black font-semibold sm:w-[80%] w-full"
 					/>
 					<input
 						type="email"
 						placeholder="Your Mail ..."
-						className="px-5 py-3 rounded-[16px] bg-[#ddd] placeholder:text-black font-semibold w-[80%]"
+						className="px-5 py-3 rounded-[16px] bg-[#ddd] placeholder:text-black font-semibold sm:w-[80%] w-full"
 					/>
 					<textarea
 						placeholder="Your Feedback ..."
-						className="px-5 py-3 rounded-[16px] bg-[#ddd] placeholder:text-black font-semibold w-[80%] h-[140px]"
+						className="px-5 py-3 rounded-[16px] bg-[#ddd] placeholder:text-black font-semibold sm:w-[80%] w-full h-[140px]"
 					/>
-					<button className="btn-primary w-[80%]">Submit</button>
+					<button className="btn-primary md:w-[80%] w-full">Submit</button>
 				</form>
 			</section>
 		</main>

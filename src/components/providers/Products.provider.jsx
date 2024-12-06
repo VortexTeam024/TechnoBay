@@ -115,7 +115,6 @@ const ProductProvider = ({ children }) => {
 
   const addToCart = async (product) => {
     if (authToken) {
-
       const url = `${import.meta.env.VITE_CART_API_URL}`;
       try {
         const response = await fetch(url, {
@@ -130,7 +129,6 @@ const ProductProvider = ({ children }) => {
         if (!response.ok) {
           throw new Error(`Failed to add product to cart. Status: ${response.status}`);
         }
-        
         setCart((prevCart) => {
           if (!Array.isArray(prevCart)) prevCart = [];
           if (!prevCart.some((item) => item.id === product.id)) {

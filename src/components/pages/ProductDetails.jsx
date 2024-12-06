@@ -118,11 +118,11 @@ const ProductDetails = () => {
 						</p>
 						<ul className="details space-y-3">
 							{selectedProduct.price && (
-								<li className="text-[#717171] text-[22px]">
+								<li className="text-[#717171] sm:text-[22px] text-[18px]">
 									Was: <del>EGP {selectedProduct.price}</del>
 								</li>
 							)}
-							<li className="text-[#717171] text-[22px]">
+							<li className="text-[#717171] sm:text-[22px] text-[16px]">
 								Now:{" "}
 								<span className="text-[28px] font-bold text-black px-2">
 									EGP {selectedProduct.priceAfterDiscount}
