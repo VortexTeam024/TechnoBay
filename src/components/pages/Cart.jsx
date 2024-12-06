@@ -146,19 +146,19 @@ const Cart = () => {
                     </span>
                   </div>
                 </div>
-                <div className="bottom mt-6 flex items-center justify-between w-[90%]">
+                <div className="bottom mt-6 flex items-center justify-between md:w-[90%]">
                   <div className="price">
                     <h5 className="text-2xl font-bold">
                       <span className="mr-2">EGP</span>
                       {product.data.priceAfterDiscount}
                     </h5>
-                    <div className="price-details flex items-center gap-4">
-                      <h6 className="text-[#717171]">
+                    <div className="price-details flex items-center sm:gap-4 gap-2">
+                      <h6 className="text-[#717171] text-[12px]">
                         <del>
                           <span>EGP</span> {product.data.price}
                         </del>
                       </h6>
-                      <h6 className="text-lg text-[#2ecc71]">{handleSalePercentage(product.data.price, product.data.priceAfterDiscount)}% Off</h6>
+                      <h6 className="sm:text-lg text-[12px] text-[#2ecc71]">{handleSalePercentage(product.data.price, product.data.priceAfterDiscount)}% Off</h6>
                     </div>
                   </div>
                   <div className="tools flex items-center gap-4">
@@ -194,7 +194,7 @@ const Cart = () => {
           )}
         </div>
 
-        <div className="details p-4 rounded-md bg-white h-fit w-full lg:w-[400px] mx-auto">
+        <div className="details p-4 rounded-md bg-white h-fit w-full lg:w-[400px] mx-auto sm:mb-0 mb-[25px]">
           <h5 className="text-3xl p-3 mb-[11px] font-bold">My Order</h5>
           <div className="shipping flex items-center justify-between mx-4 my-6">
             <p className="text-xl font-semibold">Shipping Fee</p>
