@@ -4,8 +4,17 @@ import { ProductContext } from "../contexts/Products.context";
 import { Link } from "react-router-dom";
 
 const ProductDetails = () => {
-	const { products, fetchOneProduct, wishlist, cart, addToCart, removeFromCart, addToWishlist, removeFromWishlist } = useContext(ProductContext);
+	const {
+		products,
+		fetchOneProduct,
+		wishlist,
+		cart,
+		addToCart,
+		addToWishlist,
+		removeFromWishlist,
+	} = useContext(ProductContext);
 	const { id } = useParams();
+
 	const [more, setMore] = useState([]);
 	const [selectedProduct, setSelectedProduct] = useState(null);
 	const [loading, setLoading] = useState(true);
@@ -20,14 +29,7 @@ const ProductDetails = () => {
 
 	const isInCart = (id) => Array.isArray(cart) && cart.some((item) => item.id === id);
 
-	const toggleCart = (product) => {
-		if (isInCart(product._id)) {
-			removeFromCart(product._id);
-		} else {
-			addToCart(product);
-		}
-	};
-
+	// Load product details
 	useEffect(() => {
 		const loadProduct = async () => {
 			setLoading(true);
@@ -42,17 +44,31 @@ const ProductDetails = () => {
 			}
 			setLoading(false);
 		};
-		const handleFetchMoreLikeThis = async () => {
-			if (Array.isArray(products)) {
-				const filteredLaptops = await products
-					.filter((product) => product.category.title === selectedProduct.category.title)
-					.slice(0, 4);
-				await setMore(filteredLaptops);
-			}
-		}
-		handleFetchMoreLikeThis();
+
 		loadProduct();
-	}, [id, products]);
+	}, [id, fetchOneProduct]);
+
+	// Load "More Like This" products
+	useEffect(() => {
+		const handleFetchMoreLikeThis = () => {
+			if (
+				selectedProduct &&
+				selectedProduct.category &&
+				Array.isArray(products)
+			) {
+				const filteredProducts = products
+					.filter(
+						(product) =>
+							product.category.title === selectedProduct.category.title &&
+							product.id !== selectedProduct.id
+					)
+					.slice(0, 4);
+				setMore(filteredProducts);
+			}
+		};
+
+		handleFetchMoreLikeThis();
+	}, [selectedProduct, products]);
 
 	const handleSalePercentage = (originalPrice, discountedPrice) => {
 		if (originalPrice <= 0 || discountedPrice < 0) {
@@ -61,6 +77,14 @@ const ProductDetails = () => {
 		const salePercentage =
 			((originalPrice - discountedPrice) / originalPrice) * 100;
 		return salePercentage.toFixed(2);
+	};
+
+	const handleAddSelectedProductToCart = async (product) => {
+		try {
+			await addToCart(product);
+		} catch (err) {
+			console.error(err);
+		}
 	};
 
 	if (loading) {
@@ -86,7 +110,13 @@ const ProductDetails = () => {
 							className="w-full h-auto"
 						/>
 						<div className="tools mx-4 flex flex-wrap gap-4 items-center">
-							<button onClick={(e) => {e.preventDefault(); addToCart(selectedProduct);}} className="btn-primary md:text-xl text-lg flex-1">
+							<button
+								onClick={(e) => {
+									e.preventDefault();
+									handleAddSelectedProductToCart(selectedProduct);
+								}}
+								className="btn-primary md:text-xl text-lg flex-1"
+							>
 								Add To Cart
 							</button>
 							<button
@@ -112,7 +142,9 @@ const ProductDetails = () => {
 						</div>
 					</div>
 					<div className="col">
-						<h2 className="md:text-5xl text-3xl font-bold">{selectedProduct.title}</h2>
+						<h2 className="md:text-5xl text-3xl font-bold">
+							{selectedProduct.title}
+						</h2>
 						<p className="text-lg font-semibold text-[#717171] my-2">
 							{selectedProduct.description}
 						</p>
@@ -194,9 +226,12 @@ const ProductDetails = () => {
 				</section>
 				<section className="container p-4 my-6 bg-white rounded">
 					<h2 className="text-3xl font-bold mb-3 pb-2 w-full border-b-[3px] border-b-black">
-						More From {
-							selectedProduct.category.title.replace("-", " ").toLowerCase().replace(/\b\w/g, (char) => char.toUpperCase())
-						}:
+						More From{" "}
+						{selectedProduct.category.title
+							.replace("-", " ")
+							.toLowerCase()
+							.replace(/\b\w/g, (char) => char.toUpperCase())}
+						:
 					</h2>
 					<div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
 						{more.map((product) => (
@@ -209,7 +244,10 @@ const ProductDetails = () => {
 									className="image bg-[#F6F6F6] p-4 w-full h-[254px] justify-center flex rounded-[20px] relative"
 									aria-label={`${product.title} Image`}
 								>
-									<img src={product.images?.[0]?.url || "/placeholder.png"} alt={product.name} />
+									<img
+										src={product.images?.[0]?.url || "/placeholder.png"}
+										alt={product.name}
+									/>
 									<div className="tools absolute flex flex-col justify-between top-5 right-2 h-[90%]">
 										<button
 											onClick={(e) => {
@@ -233,13 +271,9 @@ const ProductDetails = () => {
 										<button
 											onClick={(e) => {
 												e.preventDefault();
-												toggleCart(product);
+												addToCart(product);
 											}}
-											aria-label={`${
-												isInCart(product.id)
-													? "Remove from Cart"
-													: "Add to Cart"
-											} ${product.title}`}
+											aria-label={`${product.title}`}
 										>
 											<i
 												className={`fa-solid ${
@@ -270,8 +304,8 @@ const ProductDetails = () => {
 											{handleSalePercentage(
 												product.price,
 												product.priceAfterDiscount
-											)}%{" "}
-											OFF
+											)}
+											% OFF
 										</p>
 									</div>
 									<p className="free-delivery" aria-label="Free Delivery">

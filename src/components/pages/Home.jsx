@@ -28,7 +28,9 @@ const Home = () => {
 		wishlist,
 		addToWishlist,
 		removeFromWishlist,
+		fetchDataFromApi,
 		cart,
+		setCart,
 		addToCart,
 		removeFromCart,
 	} = useContext(ProductContext);
@@ -75,6 +77,13 @@ const Home = () => {
 		}
 	}, [products]);
 
+	useEffect(() => {
+		const FetchDataCart = async () => {
+			await fetchDataFromApi(import.meta.env.VITE_CART_API_URL, setCart);
+		};
+		FetchDataCart();
+	}, []);
+
 	const handleSalePercentage = (originalPrice, discountedPrice) => {
 		if (originalPrice <= 0 || discountedPrice < 0) {
 			return "Invalid prices";
@@ -92,15 +101,8 @@ const Home = () => {
 		}
 	};
 
-	const isInCart = (id) => Array.isArray(cart) && cart.some((item) => item.id === id);
-
-	const toggleCart = (product) => {
-		if (isInCart(product._id)) {
-			removeFromCart(product._id);
-		} else {
-			addToCart(product);
-		}
-	};
+	const isInCart = (id) =>
+		Array.isArray(cart) && cart.some((item) => item.id === id);
 
 	return (
 		<main className="mt-[100px] lg:mt-[120px]">
@@ -140,10 +142,9 @@ const Home = () => {
 									Your One-Stop Shop for the Latest Electronics
 								</h1>
 								<p className="text-base lg:text-lg font-normal text-white text-center max-w-4xl  ">
-									Discover the newest gadgets and tech essentials, from
-									premium laptops to smart home innovations. Shop with ease,
-									enjoy unbeatable prices, and elevate your digital lifestyle
-									today!
+									Discover the newest gadgets and tech essentials, from premium
+									laptops to smart home innovations. Shop with ease, enjoy
+									unbeatable prices, and elevate your digital lifestyle today!
 								</p>
 							</div>
 							<div className="overlay bg-overlay w-full h-full absolute"></div>
@@ -185,19 +186,19 @@ const Home = () => {
 							<div className="bg-[#D1E7FB] md:w-[175px] w-[150px] rounded-[10px]">
 								<img src="./assets/shopcard4.png" alt="" />
 								<div className="text p-1 px-2">
-									<h4 className="font-semibold text-[16px]">
-										Best Discounts
-									</h4>
+									<h4 className="font-semibold text-[16px]">Best Discounts</h4>
 									<p className="text-[12px]">Enjoy and shopping</p>
 								</div>
 							</div>
 						</div>
 					</div>
-					<img src="./assets/super-sale.png" className="h-[423px] md:p-0 p-[15px]" alt="" />
+					<img
+						src="./assets/super-sale.png"
+						className="h-[423px] md:p-0 p-[15px]"
+						alt=""
+					/>
 					<div className="card md:w-[420px] md:h-[423px] md:pb-0 pb-3 h-fit border-[2px] px-5 rounded-xl border-[#aaa]">
-						<h3 className="text-3xl font-bold text-primary py-6">
-							Mega Deals
-						</h3>
+						<h3 className="text-3xl font-bold text-primary py-6">Mega Deals</h3>
 						<div className="card-body grid grid-cols-2 gap-[10px]">
 							<div className="bg-[#D1E7FB] md:w-[175px] w-[150px] rounded-[10px]">
 								<div className="image flex justify-center">
@@ -333,13 +334,7 @@ const Home = () => {
 							>
 								<div className="image bg-[#F6F6F6] p-4 w-full h-[254px] justify-center items-center flex rounded-[20px] relative">
 									<Link to={`/product/${product.id}`}>
-										
-										<img
-											src={
-												product.images?.[0]?.url
-											}
-											alt={product.title}
-										/>
+										<img src={product.images?.[0]?.url} alt={product.title} />
 									</Link>
 									<div className="tools absolute z-50 flex flex-col justify-between top-5 right-2 h-[90%]">
 										<button
@@ -364,17 +359,13 @@ const Home = () => {
 										<button
 											onClick={(e) => {
 												e.preventDefault();
-												toggleCart(product);
+												addToCart(product);
 											}}
-											aria-label={`${
-												isInCart(product.id)
-													? "Remove from Cart"
-													: "Add to Cart"
-											} ${product.title}`}
+											aria-label={`${product.title}`}
 										>
 											<i
 												className={`fa-solid ${
-													isInCart(product.id)
+													isInCart(product._id)
 														? "fa-cart-arrow-down text-primary"
 														: "fa-cart-plus text-black"
 												} fa-xl hover:text-primary transition-all`}
@@ -399,8 +390,8 @@ const Home = () => {
 											{handleSalePercentage(
 												product.price,
 												product.priceAfterDiscount
-											)}%{" "}
-											OFF
+											)}
+											% OFF
 										</p>
 									</div>
 									<p className="free-delivery text-primary">
@@ -419,7 +410,10 @@ const Home = () => {
 			<section className="laptops container my-6">
 				<div className="heading pb-6 flex items-center justify-between">
 					<h1 className="text-4xl font-bold">Laptops</h1>
-					<Link to="/laptops" className="px-7 py-3 border-[3px] text-xl font-semibold border-primary text-primary rounded-[16px] transition-all hover:text-white hover:bg-primary">
+					<Link
+						to="/laptops"
+						className="px-7 py-3 border-[3px] text-xl font-semibold border-primary text-primary rounded-[16px] transition-all hover:text-white hover:bg-primary"
+					>
 						Show More
 					</Link>
 				</div>
@@ -460,30 +454,23 @@ const Home = () => {
 										></i>
 									</button>
 									<button
-											onClick={(e) => {
-												e.preventDefault();
-												toggleCart(product);
-											}}
-											aria-label={`${
+										onClick={async (e) => {
+											e.preventDefault();
+											await addToCart(product);
+										}}
+										aria-label={`${product.title}`}
+									>
+										<i
+											className={`fa-solid ${
 												isInCart(product.id)
-													? "Remove from Cart"
-													: "Add to Cart"
-											} ${product.title}`}
-										>
-											<i
-												className={`fa-solid ${
-													isInCart(product.id)
-														? "fa-cart-arrow-down text-primary"
-														: "fa-cart-plus text-black"
-												} fa-xl hover:text-primary transition-all`}
-											></i>
-										</button>
+													? "fa-cart-arrow-down text-primary"
+													: "fa-cart-plus text-black"
+											} fa-xl hover:text-primary transition-all`}
+										></i>
+									</button>
 								</div>
 							</div>
-							<Link
-								to={`/product/${product.id}`}
-								className="details block p-2"
-							>
+							<Link to={`/product/${product.id}`} className="details block p-2">
 								<h2 className="text-lg font-bold" aria-label={product.title}>
 									{product.title}
 								</h2>
@@ -502,16 +489,15 @@ const Home = () => {
 										{handleSalePercentage(
 											product.price,
 											product.priceAfterDiscount
-										)}%{" "}
-										OFF
+										)}
+										% OFF
 									</p>
 								</div>
 								<p
 									className="free-delivery text-primary"
 									aria-label="Free Delivery"
 								>
-									<i className="fa-solid fa-truck fa-md mr-2"></i> Free
-									Delivery
+									<i className="fa-solid fa-truck fa-md mr-2"></i> Free Delivery
 								</p>
 							</Link>
 						</article>
@@ -521,7 +507,10 @@ const Home = () => {
 			<section className="mobiles container my-6">
 				<div className="heading pb-6 flex items-center justify-between">
 					<h1 className="text-4xl font-bold">Mobiles</h1>
-					<Link to="/mobiles" className="px-7 py-3 border-[3px] text-xl font-semibold border-primary text-primary rounded-[16px] transition-all hover:text-white hover:bg-primary">
+					<Link
+						to="/mobiles"
+						className="px-7 py-3 border-[3px] text-xl font-semibold border-primary text-primary rounded-[16px] transition-all hover:text-white hover:bg-primary"
+					>
 						Show More
 					</Link>
 				</div>
@@ -533,15 +522,10 @@ const Home = () => {
 							className="product bg-white p-2 rounded-[20px] shadow-2xl"
 						>
 							<div
-								className="image bg-[#F6F6F6] p-4 w-full h-[254px] justify-center items-center flex items-center rounded-[20px] relative"
+								className="image bg-[#F6F6F6] p-4 w-full h-[254px] justify-center flex items-center rounded-[20px] relative"
 								aria-label={`${product.title} Image`}
 							>
-								<img
-									src={
-										product.images?.[0]?.url
-									}
-									alt={product.name}
-								/>
+								<img src={product.images?.[0]?.url} alt={product.name} />
 								<div className="tools absolute flex flex-col justify-between top-5 right-2 h-[90%]">
 									<button
 										onClick={(e) => {
@@ -563,24 +547,20 @@ const Home = () => {
 										></i>
 									</button>
 									<button
-											onClick={(e) => {
-												e.preventDefault();
-												toggleCart(product);
-											}}
-											aria-label={`${
+										onClick={async (e) => {
+											e.preventDefault();
+											await addToCart(product);
+										}}
+										aria-label={`${product.title}`}
+									>
+										<i
+											className={`fa-solid ${
 												isInCart(product.id)
-													? "Remove from Cart"
-													: "Add to Cart"
-											} ${product.title}`}
-										>
-											<i
-												className={`fa-solid ${
-													isInCart(product.id)
-														? "fa-cart-arrow-down text-primary"
-														: "fa-cart-plus text-black"
-												} fa-xl hover:text-primary transition-all`}
-											></i>
-										</button>
+													? "fa-cart-arrow-down text-primary"
+													: "fa-cart-plus text-black"
+											} fa-xl hover:text-primary transition-all`}
+										></i>
+									</button>
 								</div>
 							</div>
 							<div className="details p-2">
@@ -602,16 +582,15 @@ const Home = () => {
 										{handleSalePercentage(
 											product.price,
 											product.priceAfterDiscount
-										)}%{" "}
-										OFF
+										)}
+										% OFF
 									</p>
 								</div>
 								<p
 									className="free-delivery text-primary"
 									aria-label="Free Delivery"
 								>
-									<i className="fa-solid fa-truck fa-md mr-2"></i> Free
-									Delivery
+									<i className="fa-solid fa-truck fa-md mr-2"></i> Free Delivery
 								</p>
 							</div>
 						</Link>
@@ -656,8 +635,7 @@ const Home = () => {
 								</div>
 								<p className="font-semibold text-[14px] italic pt-2 text-white">
 									&quot;Great product quality, fast delivery, and helpful
-									customer service. Highly recommend for future
-									purchases!&quot;
+									customer service. Highly recommend for future purchases!&quot;
 								</p>
 							</div>
 						</div>
@@ -677,8 +655,7 @@ const Home = () => {
 								</div>
 								<p className="font-semibold text-[14px] italic pt-2 text-white">
 									&quot;Great product quality, fast delivery, and helpful
-									customer service. Highly recommend for future
-									purchases!&quot;
+									customer service. Highly recommend for future purchases!&quot;
 								</p>
 							</div>
 						</div>
@@ -698,8 +675,7 @@ const Home = () => {
 								</div>
 								<p className="font-semibold text-[14px] italic pt-2 text-white">
 									&quot;Great product quality, fast delivery, and helpful
-									customer service. Highly recommend for future
-									purchases!&quot;
+									customer service. Highly recommend for future purchases!&quot;
 								</p>
 							</div>
 						</div>
@@ -719,8 +695,7 @@ const Home = () => {
 								</div>
 								<p className="font-semibold text-[14px] italic pt-2 text-white">
 									&quot;Great product quality, fast delivery, and helpful
-									customer service. Highly recommend for future
-									purchases!&quot;
+									customer service. Highly recommend for future purchases!&quot;
 								</p>
 							</div>
 						</div>
