@@ -101,8 +101,6 @@ const Cart = () => {
 		return salePercentage.toFixed(2);
 	};
 
-  console.log(enrichedCartItems);
-
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -153,7 +151,7 @@ const Cart = () => {
                       {product.data.priceAfterDiscount}
                     </h5>
                     <div className="price-details flex items-center sm:gap-4 gap-2">
-                      <h6 className="text-[#717171] text-[12px]">
+                      <h6 className="text-[#717171] sm:text-lg text-[12px]">
                         <del>
                           <span>EGP</span> {product.data.price}
                         </del>
@@ -164,7 +162,11 @@ const Cart = () => {
                   <div className="tools flex items-center gap-4">
                     <div className="bg-[#f1f1f1] px-4 py-2 w-fit flex items-center gap-6 rounded-lg">
                       <button
-                        onClick={() => handleIncrease(cart?.data?.cartItems?.[index] || {})}
+                        onClick={() => {
+                          if (cart?.data?.cartItems?.[index]?.quantity < 9) {
+                            handleIncrease(cart?.data?.cartItems?.[index] || {})
+                          }
+                        }}
                         className="font-semibold text-black text-2xl"
                       >
                         +
@@ -173,7 +175,9 @@ const Cart = () => {
                         {cart?.data?.cartItems?.[index]?.quantity || 0}
                       </span>
                       <button
-                        onClick={() => handleDecrease(cart?.data?.cartItems?.[index] || {})}
+                        onClick={() => {
+                          handleDecrease(cart?.data?.cartItems?.[index] || {})
+                        }}
                         className="font-bold text-black text-2xl"
                       >
                         -
@@ -190,17 +194,17 @@ const Cart = () => {
               </div>
             </div>
           )) : (
-            <p>Not Found</p>
+            <p>Your cart is empty</p>
           )}
         </div>
 
         <div className="details p-4 rounded-md bg-white h-fit w-full lg:w-[400px] mx-auto sm:mb-0 mb-[25px]">
-          <h5 className="text-3xl p-3 mb-[11px] font-bold">My Order</h5>
+          <h5 className="text-3xl py-[8px] px-3 font-bold">My Order</h5>
           <div className="shipping flex items-center justify-between mx-4 my-6">
             <p className="text-xl font-semibold">Shipping Fee</p>
             <span className="text-[#2ecc71] text-xl">Free</span>
           </div>
-          <div className="total mx-4 my-6">
+          <div className="total mx-4 my-2">
             <p className="text-xl font-semibold">
               Total{" "}
               <span className="text-[#717171] ml-2 font-medium">(Inclusive of VAT)</span>

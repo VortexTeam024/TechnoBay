@@ -1,6 +1,8 @@
 import { useEffect, useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { ProductContext } from "../contexts/Products.context";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Navbar = () => {
 	const [isOpen, setIsOpen] = useState(false);
@@ -40,9 +42,11 @@ const Navbar = () => {
 
 			if (matchingProduct) {
 				navigate(`/product/${matchingProduct.id}`);
+				setSearchQuery("");
 			} else {
-				alert("Product not found");
+				toast.error("Product not found");
 			}
+
 		}
 	};
 
@@ -105,7 +109,7 @@ const Navbar = () => {
 			<nav className="bottom-nav w-screen h-fit p-2 lg:p-0 lg:h-[50px] bg-[#ddd]">
 				<div className="container relative h-full flex gap-[20px] px-5 lg:px-0 lg:justify-center items-center">
 					{categories.map((category) => (
-						<Link key={category._id} to={`/${category.title.toLowerCase().replace(" ", "-")}`} className="text-black hover:text-primary font-semibold text-lg hidden lg:flex" aria-label={`View ${category}`}>
+						<Link key={category._id} to={`/category/${category.title.toLowerCase().replace(" ", "-")}`} className="text-black hover:text-primary font-semibold text-lg hidden lg:flex" aria-label={`View ${category}`}>
 							{category.title}
 						</Link>
 					))}
@@ -147,6 +151,7 @@ const Navbar = () => {
 					)}
 				</div>
 			</nav>
+			<ToastContainer />
 		</header>
 	);
 };
