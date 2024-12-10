@@ -106,7 +106,7 @@ const Home = () => {
 
 	return (
 		<main className="mt-[100px] lg:mt-[120px]">
-			<section className="hero relative w-full h-heroSize overflow-hidden z-40">
+			<section className="hero relative w-full h-72 sm:h-heroSize overflow-hidden z-40">
 				<Swiper
 					modules={[Navigation, Pagination, Autoplay]}
 					navigation
@@ -116,13 +116,13 @@ const Home = () => {
 					className="h-full w-full"
 				>
 					<SwiperSlide>
-						<div className="relative w-full h-screen lg:h-heroSize">
+						<div className="relative w-full h-full lg:h-heroSize">
 							<div className="text absolute flex flex-col items-center justify-center h-full w-full z-50 px-4 lg:px-0">
-								<h1 className="text-3xl lg:text-5xl font-bold text-white text-center leading-snug lg:leading-relaxed mb-2 lg:mb-3">
+								<h1 className="text-2xl lg:text-5xl font-bold text-white text-center leading-snug lg:leading-relaxed mb-2 lg:mb-3">
 									Discover the Latest in Electronics Shop{" "}
 									<br className="hidden lg:block" /> Smart, Live Connected!
 								</h1>
-								<p className="text-base lg:text-lg font-normal text-white text-center max-w-4xl  ">
+								<p className="text-sm lg:text-lg font-normal text-white text-center max-w-4xl  ">
 									Explore top electronics: smartphones, laptops, smart home
 									devices, and more. Shop now for great deals!
 								</p>
@@ -136,12 +136,12 @@ const Home = () => {
 						</div>
 					</SwiperSlide>
 					<SwiperSlide>
-						<div className="relative w-full h-screen lg:h-heroSize">
+						<div className="relative w-full h-full lg:h-heroSize">
 							<div className="text absolute flex flex-col items-center justify-center h-full w-full z-50 px-4 lg:px-0">
-								<h1 className="text-3xl lg:text-5xl font-bold text-white text-center leading-snug lg:leading-relaxed mb-2 lg:mb-3">
+								<h1 className="text-2xl lg:text-5xl font-bold text-white text-center leading-snug lg:leading-relaxed mb-2 lg:mb-3">
 									Your One-Stop Shop for the Latest Electronics
 								</h1>
-								<p className="text-base lg:text-lg font-normal text-white text-center max-w-4xl  ">
+								<p className="text-sm lg:text-lg font-normal text-white text-center max-w-4xl  ">
 									Discover the newest gadgets and tech essentials, from premium
 									laptops to smart home innovations. Shop with ease, enjoy
 									unbeatable prices, and elevate your digital lifestyle today!
