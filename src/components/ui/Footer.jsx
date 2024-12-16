@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <footer className="p-10 bg-primary rounded-t-[28px]">
+    <footer className="p-10 bg-primary rounded-t-[28px] relative bottom-0 left-0">
       <div className="container grid xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-12 place-items-top">
         <div className="col">
           <img src="/assets/Logo.png" width={"100px"} height={"100px"} alt="" />
