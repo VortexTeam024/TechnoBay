@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -32,7 +31,6 @@ const Home = () => {
 		cart,
 		setCart,
 		addToCart,
-		removeFromCart,
 	} = useContext(ProductContext);
 
 	const [featuredProducts, setFeaturedProducts] = useState({
@@ -82,7 +80,7 @@ const Home = () => {
 			await fetchDataFromApi(import.meta.env.VITE_CART_API_URL, setCart);
 		};
 		FetchDataCart();
-	}, []);
+	}, [fetchDataFromApi, setCart]);
 
 	const handleSalePercentage = (originalPrice, discountedPrice) => {
 		if (originalPrice <= 0 || discountedPrice < 0) {
@@ -326,8 +324,8 @@ const Home = () => {
 				<h1 className="text-4xl font-bold pb-6">Recommended For You</h1>
 				<div className="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-2 grid-cols-1 gap-5">
 					{Object.entries(featuredProducts)
-						.filter(([key, product]) => product !== null)
-						.map(([key, product]) => (
+						.filter(([, product]) => product !== null)
+						.map(([, product]) => (
 							<article
 								key={product.id}
 								className="product bg-white p-2 rounded-[20px] shadow-2xl relative z-40"

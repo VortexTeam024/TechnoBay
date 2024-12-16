@@ -1,10 +1,9 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const apiUrl = import.meta.env.VITE_FORGET_PASSWORD_API_URL;
-
 
 const ForgetPassword = () => {
 	const navigate = useNavigate();
@@ -28,16 +27,13 @@ const ForgetPassword = () => {
 		};
 
 		try {
-			const response = await fetch(
-				apiUrl,
-				{
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify(requestData),
-				}
-			);
+			const response = await fetch(apiUrl, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(requestData),
+			});
 
 			if (!response.ok) {
 				const errorData = await response.json();
@@ -68,14 +64,12 @@ const ForgetPassword = () => {
 					Back
 				</Link>
 			</div>
-
 			{/* Top-right image */}
 			<img
 				className="absolute top-[-30px] right-0 w-[150px] sm:w-[200px] h-auto"
 				src="./assets/login1.png"
 				alt="Top Decoration"
 			/>
-
 			{/* Main Login Container */}
 			<div className="flex flex-col items-center w-full max-w-[800px] p-[20px] sm:p-[40px]">
 				{/* Header */}
@@ -111,7 +105,9 @@ const ForgetPassword = () => {
 				{/* Footer */}
 				<div className="text-center mt-[20px] sm:mt-[30px]">
 					<div className="flex justify-center items-center text-[18px] sm:text-[22px]">
-						<span className="text-black mr-[10px]">Remembered your password?</span>
+						<span className="text-black mr-[10px]">
+							Remembered your password?
+						</span>
 						<Link
 							to="/login"
 							className="text-primary font-bold hover:underline focus:outline-none"
@@ -121,14 +117,12 @@ const ForgetPassword = () => {
 					</div>
 				</div>
 			</div>
-
 			{/* Bottom-left image */}
 			<img
 				className="absolute bottom-[-30px] left-0 w-[150px] sm:w-[200px] h-auto"
 				src="./assets/login2.png"
 				alt="Bottom Decoration"
 			/>
-			<ToastContainer />
 		</div>
 	);
 };

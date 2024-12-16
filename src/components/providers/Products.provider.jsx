@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { ProductContext } from "../contexts/Products.context";
 import PropTypes from "prop-types";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 let authToken = "";
@@ -74,6 +74,7 @@ const ProductProvider = ({ children }) => {
 					body: JSON.stringify({ productId: product.id }),
 				});
 				if (response.ok) {
+					toast.success("Added To Wishlist Successfully!");
 					setWishlist((prevWishlist) => {
 						if (!prevWishlist.some((item) => item.id === product.id)) {
 							return [...prevWishlist, product];
@@ -135,6 +136,7 @@ const ProductProvider = ({ children }) => {
 						`Failed to add product to cart. Status: ${response.status}`
 					);
 				}
+				toast.success("Added To Cart Successfully!");
 				setCart((prevCart) => {
 					if (!Array.isArray(prevCart)) prevCart = [];
 					if (!prevCart.some((item) => item.id === product.id)) {
@@ -219,7 +221,7 @@ const ProductProvider = ({ children }) => {
 						const updatedCartItems = prevCart.data.cartItems.map((item) =>
 							item.id === id ? { ...item, quantity } : item
 						);
-						setProducts(updatedCartItems); // تحديث المنتجات هنا مباشرة
+						setProducts(updatedCartItems);
 						return {
 							...prevCart,
 							data: {
@@ -265,7 +267,6 @@ const ProductProvider = ({ children }) => {
 			}}
 		>
 			{children}
-			<ToastContainer />
 		</ProductContext.Provider>
 	);
 };
