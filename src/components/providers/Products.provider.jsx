@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const authToken = localStorage.getItem("token");
+let authToken = "";
 
 const ProductProvider = ({ children }) => {
 	const [products, setProducts] = useState([]);
@@ -40,6 +40,7 @@ const ProductProvider = ({ children }) => {
 	// Fetch one product by ID
 	const fetchOneProduct = async (productId) => {
 		const url = `${import.meta.env.VITE_GET_ALL_PRODUCTS_API_URL}/${productId}`;
+		authToken = localStorage.getItem("token");
 		try {
 			const response = await fetch(url, {
 				method: "GET",
@@ -60,6 +61,7 @@ const ProductProvider = ({ children }) => {
 
 	// Add a product to the wishlist
 	const addToWishlist = async (product) => {
+		authToken = localStorage.getItem("token");
 		if (authToken) {
 			const url = `${import.meta.env.VITE_WISHLIST_API_URL}`;
 			try {
@@ -89,6 +91,7 @@ const ProductProvider = ({ children }) => {
 
 	// Remove a product from the wishlist
 	const removeFromWishlist = async (id) => {
+		authToken = localStorage.getItem("token");
 		if (authToken) {
 			const url = `${import.meta.env.VITE_WISHLIST_API_URL}/${id}`;
 			try {
@@ -114,6 +117,7 @@ const ProductProvider = ({ children }) => {
 	};
 
 	const addToCart = async (product) => {
+		authToken = localStorage.getItem("token");
 		if (authToken) {
 			const url = `${import.meta.env.VITE_CART_API_URL}`;
 			try {
@@ -148,6 +152,7 @@ const ProductProvider = ({ children }) => {
 
 	// Remove a product from the cart
 	const removeFromCart = async (id) => {
+		authToken = localStorage.getItem("token");
 		if (authToken) {
 			const url = `${import.meta.env.VITE_CART_API_URL}/${id}`;
 			try {
@@ -198,6 +203,7 @@ const ProductProvider = ({ children }) => {
 
 	const updateCart = async (id, quantity) => {
 		const url = `${import.meta.env.VITE_CART_API_URL}/${id}`;
+		authToken = localStorage.getItem("token");
 		try {
 			const response = await fetch(url, {
 				method: "PUT",

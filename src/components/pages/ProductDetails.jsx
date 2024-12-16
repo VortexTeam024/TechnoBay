@@ -90,7 +90,7 @@ const ProductDetails = () => {
 	if (loading) {
 		return (
 			<>
-				<main className="bg-[#f1f1f1] mt-[100px] lg:mt-[140px]">
+				<main className="min-h-[25.5vh] mt-[145px] lg:mt-[140px] flex items-center justify-center text-xl bg-[#f1f1f1]">
 					<section className="container p-4 my-6 text-center">
 						<p>Loading product details...</p>
 					</section>

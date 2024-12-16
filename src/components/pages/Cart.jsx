@@ -102,11 +102,11 @@ const Cart = () => {
 	};
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="min-h-[25.5vh] mt-[145px] lg:mt-[140px] flex items-center justify-center text-xl">Loading...</div>;
   }
 
   return (
-    <main className="mt-[145px] lg:mt-[140px]">
+    <main className="mt-[145px] lg:mt-[140px] mb-12">
       <h1 className="text-5xl font-bold italic border-b-[3px] border-black pb-2 mx-auto my-12 w-fit">
         Cart
       </h1>
