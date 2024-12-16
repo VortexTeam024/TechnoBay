@@ -13,6 +13,7 @@ import Navbar from "./components/ui/Navbar";
 import Footer from "./components/ui/Footer";
 import ProductProvider from "./components/providers/Products.provider";
 import NotFound from "./components/pages/NotFound";
+import { ToastContainer } from "react-toastify";
 
 const Layout = () => {
   return (
@@ -46,6 +47,7 @@ const App = () => {
   return (
     <ProductProvider>
       <RouterProvider router={Router} />
+      <ToastContainer />
     </ProductProvider>
   );
 };
